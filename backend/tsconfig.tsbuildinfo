@@ -1,0 +1,1 @@
+{"root":["./src/db.ts","./src/express.d.ts","./src/index.ts","./src/middleware.ts","./src/controllers/tripcontroller.ts","./src/controllers/usercontroller.ts","./src/routes/triproutes.ts","./src/routes/userroutes.ts"],"version":"6.0.2"}
