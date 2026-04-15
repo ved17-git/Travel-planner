@@ -81,12 +81,14 @@ itinerary: [{
 
 hotelSuggestions: [{
     name: String,
-    type: String,
+    type: { type: String },
     location: {
         lat: Number,
         lng: Number,
     },
 }],
+
+
     }, {timestamps:true})
 
     export const tripModel=model('Trip', tripSchema)

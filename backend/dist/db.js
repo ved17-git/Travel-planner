@@ -71,7 +71,7 @@ export const tripSchema = new Schema({
     },
     hotelSuggestions: [{
             name: String,
-            type: String,
+            type: { type: String },
             location: {
                 lat: Number,
                 lng: Number,

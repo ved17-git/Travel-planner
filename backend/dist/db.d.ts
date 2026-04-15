@@ -149,7 +149,28 @@ export declare const tripSchema: mongoose.Schema<any, mongoose.Model<any, any, a
         day?: number | null;
         title?: string | null;
     }>;
-    hotelSuggestions: string[];
+    hotelSuggestions: mongoose.Types.DocumentArray<{
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.BSON.ObjectId, unknown, {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, {}, {}> & {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }>;
     budgetEstimate?: {
         activities?: number | null;
         flights?: number | null;
@@ -230,7 +251,28 @@ export declare const tripSchema: mongoose.Schema<any, mongoose.Model<any, any, a
         day?: number | null;
         title?: string | null;
     }>;
-    hotelSuggestions: string[];
+    hotelSuggestions: mongoose.Types.DocumentArray<{
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.BSON.ObjectId, unknown, {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, {}, {}> & {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }>;
     budgetEstimate?: {
         activities?: number | null;
         flights?: number | null;
@@ -315,7 +357,28 @@ export declare const tripSchema: mongoose.Schema<any, mongoose.Model<any, any, a
         day?: number | null;
         title?: string | null;
     }>;
-    hotelSuggestions: string[];
+    hotelSuggestions: mongoose.Types.DocumentArray<{
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.BSON.ObjectId, unknown, {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, {}, {}> & {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }>;
     budgetEstimate?: {
         activities?: number | null;
         flights?: number | null;
@@ -402,7 +465,28 @@ export declare const tripSchema: mongoose.Schema<any, mongoose.Model<any, any, a
         day?: number | null;
         title?: string | null;
     }>;
-    hotelSuggestions: string[];
+    hotelSuggestions: mongoose.Types.DocumentArray<{
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.BSON.ObjectId, unknown, {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, {}, {}> & {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }>;
     budgetEstimate?: {
         activities?: number | null;
         flights?: number | null;
@@ -490,7 +574,28 @@ export declare const tripModel: mongoose.Model<{
         day?: number | null;
         title?: string | null;
     }>;
-    hotelSuggestions: string[];
+    hotelSuggestions: mongoose.Types.DocumentArray<{
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.BSON.ObjectId, unknown, {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, {}, {}> & {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }>;
     budgetEstimate?: {
         activities?: number | null;
         flights?: number | null;
@@ -573,7 +678,28 @@ export declare const tripModel: mongoose.Model<{
         day?: number | null;
         title?: string | null;
     }>;
-    hotelSuggestions: string[];
+    hotelSuggestions: mongoose.Types.DocumentArray<{
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.BSON.ObjectId, unknown, {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, {}, {}> & {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }>;
     budgetEstimate?: {
         activities?: number | null;
         flights?: number | null;
@@ -658,7 +784,28 @@ export declare const tripModel: mongoose.Model<{
         day?: number | null;
         title?: string | null;
     }>;
-    hotelSuggestions: string[];
+    hotelSuggestions: mongoose.Types.DocumentArray<{
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.BSON.ObjectId, unknown, {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, {}, {}> & {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }>;
     budgetEstimate?: {
         activities?: number | null;
         flights?: number | null;
@@ -747,7 +894,28 @@ export declare const tripModel: mongoose.Model<{
         day?: number | null;
         title?: string | null;
     }>;
-    hotelSuggestions: string[];
+    hotelSuggestions: mongoose.Types.DocumentArray<{
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.BSON.ObjectId, unknown, {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, {}, {}> & {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }>;
     budgetEstimate?: {
         activities?: number | null;
         flights?: number | null;
@@ -828,7 +996,28 @@ export declare const tripModel: mongoose.Model<{
         day?: number | null;
         title?: string | null;
     }>;
-    hotelSuggestions: string[];
+    hotelSuggestions: mongoose.Types.DocumentArray<{
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.BSON.ObjectId, unknown, {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, {}, {}> & {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }>;
     budgetEstimate?: {
         activities?: number | null;
         flights?: number | null;
@@ -913,7 +1102,28 @@ export declare const tripModel: mongoose.Model<{
         day?: number | null;
         title?: string | null;
     }>;
-    hotelSuggestions: string[];
+    hotelSuggestions: mongoose.Types.DocumentArray<{
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.BSON.ObjectId, unknown, {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, {}, {}> & {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }>;
     budgetEstimate?: {
         activities?: number | null;
         flights?: number | null;
@@ -1000,7 +1210,28 @@ export declare const tripModel: mongoose.Model<{
         day?: number | null;
         title?: string | null;
     }>;
-    hotelSuggestions: string[];
+    hotelSuggestions: mongoose.Types.DocumentArray<{
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.BSON.ObjectId, unknown, {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, {}, {}> & {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }>;
     budgetEstimate?: {
         activities?: number | null;
         flights?: number | null;
@@ -1087,7 +1318,28 @@ export declare const tripModel: mongoose.Model<{
         day?: number | null;
         title?: string | null;
     }>;
-    hotelSuggestions: string[];
+    hotelSuggestions: mongoose.Types.DocumentArray<{
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, mongoose.Types.Subdocument<mongoose.mongo.BSON.ObjectId, unknown, {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }, {}, {}> & {
+        type?: string | null;
+        name?: string | null;
+        location?: {
+            lat?: number | null;
+            lng?: number | null;
+        } | null;
+    }>;
     budgetEstimate?: {
         activities?: number | null;
         flights?: number | null;

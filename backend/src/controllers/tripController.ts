@@ -1,9 +1,11 @@
 import type { Request, Response } from "express"
 import { tripModel } from "../db.js"
-import { GoogleGenAI } from "@google/genai";
+import { OpenRouter } from "@openrouter/sdk";
 import 'dotenv/config'
 
-const ai = new GoogleGenAI({apiKey:process.env.GEMINI_API_KEY as string});
+const openrouter = new OpenRouter({
+  apiKey: process.env.OPENROUTER_API_KEY
+});
 
 
 export const createTrip= async (req:Request,res:Response)=>{
@@ -70,27 +72,40 @@ IMPORTANT:
 `
 
 
-    const response = await ai.models.generateContent({
-        model: process.env.GEMINI_MODEL as string,
-        contents: prompt
-    });
+    const response = await openrouter.chat.send({
+      chatRequest: {
+        model: process.env.OPENROUTER_MODEL,
+        responseFormat: { type: "json_object" },
+        messages: [
+          {
+            role: "user",
+            content: prompt + "\n\nReturn ONLY JSON. No explanation."
+          }
+        ]
+      }
+    })
+ 
+    // Extract text from response
+    const rawText = response.choices[0]?.message?.content ?? ""
+ 
+    // Strip accidental markdown fences
+    const cleaned = rawText.replace(/```json|```/g, "").trim()
+    const parsed = JSON.parse(cleaned)
+ 
+    // Save to DB
+    const trip = await tripModel.create({
+      userId: req.user.userId,
+      destination,
+      numberOfDays,
+      budget,
+      interests: interests ?? [],
+      itinerary: parsed.itinerary,
+      budgetEstimate: parsed.budgetEstimate,
+      hotelSuggestions: parsed.hotelSuggestions,
+    })
+ 
+    return res.status(201).json({ success: true, trip })
 
-        const rawText = response.text?.trim() ?? ""
-        const cleaned = rawText.replace(/^```json\n?|```$/g, "").trim()
-        const parsed = JSON.parse(cleaned)
-
-        const newTrip = await tripModel.create({
-            userId: req.user.userId,
-            destination,
-            numberOfDays,
-            budget,
-            interests: interests ?? [],
-            itinerary: parsed.itinerary,
-            budgetEstimate: parsed.budgetEstimate,
-            hotelSuggestions: parsed.hotelSuggestions,
-        })
-
-        res.status(201).json({ msg: 'Trip created', trip: newTrip })
         
     } catch (error) {
         console.log("Createtrip api error");

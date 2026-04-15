@@ -1,7 +1,9 @@
 import { tripModel } from "../db.js";
-import { GoogleGenAI } from "@google/genai";
+import { OpenRouter } from "@openrouter/sdk";
 import 'dotenv/config';
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const openrouter = new OpenRouter({
+    apiKey: process.env.OPENROUTER_API_KEY
+});
 export const createTrip = async (req, res) => {
     try {
         if (!req.user) {
@@ -60,14 +62,25 @@ IMPORTANT:
 - budgetEstimate.total must equal the sum of flights + accommodation + food + activities.
 - Do not use placeholder 0.0 values for coordinates.
 `;
-        const response = await ai.models.generateContent({
-            model: process.env.GEMINI_MODEL,
-            contents: prompt
+        const response = await openrouter.chat.send({
+            chatRequest: {
+                model: "openai/gpt-4o-mini",
+                responseFormat: { type: "json_object" },
+                messages: [
+                    {
+                        role: "user",
+                        content: prompt + "\n\nReturn ONLY JSON. No explanation."
+                    }
+                ]
+            }
         });
-        const rawText = response.text?.trim() ?? "";
-        const cleaned = rawText.replace(/^```json\n?|```$/g, "").trim();
+        // Extract text from response
+        const rawText = response.choices[0]?.message?.content ?? "";
+        // Strip accidental markdown fences
+        const cleaned = rawText.replace(/```json|```/g, "").trim();
         const parsed = JSON.parse(cleaned);
-        const newTrip = await tripModel.create({
+        // Save to DB
+        const trip = await tripModel.create({
             userId: req.user.userId,
             destination,
             numberOfDays,
@@ -77,7 +90,7 @@ IMPORTANT:
             budgetEstimate: parsed.budgetEstimate,
             hotelSuggestions: parsed.hotelSuggestions,
         });
-        res.status(201).json({ msg: 'Trip created', trip: newTrip });
+        return res.status(201).json({ success: true, trip });
     }
     catch (error) {
         console.log("Createtrip api error");
