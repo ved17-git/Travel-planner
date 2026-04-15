@@ -2,22 +2,26 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useActionState } from "react";
+import { useEffect } from "react";
+import { loginUser } from "../actions";
+import { toast } from "sonner";
 
 export default function Login() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    // TODO: replace with real API call
-    await new Promise((r) => setTimeout(r, 800));
-    setLoading(false);
-    router.push("/dashboard");
-  };
+  const [data, action, loading]=useActionState(loginUser, null)
+  
+  useEffect(()=>{
+     if(!data) return
+     if(data.status==="error"){
+        toast.error(data.msg)
+     }else{
+      toast.success(data.msg)
+      router.push('/dashboard')
+     }
+  },[data, router])
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -48,15 +52,14 @@ export default function Login() {
           <h1 className="text-2xl font-bold mt-6 mb-1">Welcome back</h1>
           <p className="text-sm text-muted-foreground mb-8">Sign in to your account</p>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form action={action} className="space-y-4">
             <div className="space-y-1.5">
               <label className="text-sm font-medium" htmlFor="email">Email</label>
               <input
                 id="email"
                 type="email"
                 placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                name="email"
                 className="w-full h-10 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
@@ -67,8 +70,7 @@ export default function Login() {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  name="password"
                   className="w-full h-10 px-3 pr-10 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 />
                 <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground text-xs">

@@ -1,24 +1,27 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import { useActionState } from "react";
+import { registerUser } from "../actions";
+import { useEffect } from "react";
+import { toast } from "sonner"
 import { useRouter } from "next/navigation";
 
 export default function Register() {
-  const router = useRouter();
-  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const router=useRouter()
+  const [data, action, loading]=useActionState(registerUser, null)
 
-  const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement>) => setForm((f) => ({ ...f, [k]: e.target.value }));
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    // TODO: replace with real API call
-    await new Promise((r) => setTimeout(r, 800));
-    setLoading(false);
-    router.push("/dashboard");
-  };
+  useEffect(()=>{
+    if(!data) return
+    if(data?.status==="error"){
+       toast.error(data.msg)
+    }
+    else{
+      toast.success(data?.msg)
+      router.push('/login')
+    }
+  },[data, router])
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -40,28 +43,38 @@ export default function Register() {
           <h1 className="text-2xl font-bold mt-6 mb-1">Create an account</h1>
           <p className="text-sm text-muted-foreground mb-8">Start planning in under a minute</p>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form action={action} className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
                 <label className="text-sm font-medium">First name</label>
-                <input placeholder="John" value={form.firstName} onChange={set("firstName")}
+                <input placeholder="John" type="text" name="firstName" required
                   className="w-full h-10 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
               </div>
               <div className="space-y-1.5">
                 <label className="text-sm font-medium">Last name</label>
-                <input placeholder="Doe" value={form.lastName} onChange={set("lastName")}
+                <input placeholder="Doe" type="text" name="lastName"  required
                   className="w-full h-10 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
               </div>
             </div>
             <div className="space-y-1.5">
+          <label className="text-sm font-medium">Username</label>
+          <input
+            type="text"
+            name="username"
+            placeholder="johndoe123"
+            required
+            className="w-full h-10 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+          />
+        </div>
+            <div className="space-y-1.5">
               <label className="text-sm font-medium">Email</label>
-              <input type="email" placeholder="you@example.com" value={form.email} onChange={set("email")}
+              <input type="email" placeholder="you@example.com" name="email"
                 className="w-full h-10 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
             </div>
             <div className="space-y-1.5">
               <label className="text-sm font-medium">Password</label>
               <div className="relative">
-                <input type={showPassword ? "text" : "password"} placeholder="Min. 8 characters" value={form.password} onChange={set("password")}
+                <input type={showPassword ? "text" : "password"} placeholder="Min. 8 characters" name="password" required
                   className="w-full h-10 px-3 pr-10 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
                 <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground text-xs">
                   {showPassword ? "Hide" : "Show"}

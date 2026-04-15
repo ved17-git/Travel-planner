@@ -1,0 +1,82 @@
+"use server"
+import { redirect } from "next/navigation"
+import { BASEURL } from "../config"
+import { cookies } from "next/headers"
+
+export async function registerUser(previousState: unknown, formData: FormData){
+ 
+    const firstName=formData.get("firstName")
+    const lastName=formData.get("lastName")
+    const username=formData.get("username")
+    const email=formData.get("email")
+    const password=formData.get("password")
+
+    const user={
+        firstName,
+        lastName,
+        email,
+        password,
+        username
+    }
+
+    const res=await fetch(`${BASEURL}/register`, {
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify(user)
+    })    
+   
+   const data=await res.json()
+   if(!res.ok){
+        return { 
+            status:"error",
+            msg:data.msg
+        }
+   }
+   return {
+     status:"succes",
+     msg:data.msg
+   }
+
+}
+
+
+export async function loginUser(previousState: unknown, formData:FormData){
+  
+    const email=formData.get("email")
+    const password=formData.get("password")
+    
+    const user={
+        email,
+        password
+    }
+
+    const res=await fetch(`${BASEURL}/signin`,{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(user)
+    })
+    const data=await res.json()
+
+    if(!res.ok){
+        return {
+            status:"error",
+            msg:data.msg
+        }
+    }
+
+    const cookieStore=await cookies()
+    cookieStore.set('token', data.token,{
+        httpOnly:true,
+        maxAge: 60*60 * 2  //60*60=> 1hr 
+    })
+  
+    return {
+        status:"success",
+        msg:data.msg
+    }
+
+}
