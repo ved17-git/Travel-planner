@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { useEffect } from "react";
+
 
 const INTERESTS = ["Food", "Culture", "Adventure", "Shopping", "Nature", "Nightlife", "History", "Art"] as const;
 const BUDGET_OPTIONS = [
@@ -23,6 +25,17 @@ interface Props {
 }
 
 export default function EditTripModal({ trip, onClose, onSave }: Props) {
+
+
+  useEffect(() => {
+  document.body.style.overflow = "hidden";
+
+  return () => {
+    document.body.style.overflow = "auto";
+  };
+}, []);
+
+
   const [destination, setDestination] = useState(trip.destination);
   const [days, setDays] = useState(String(trip.numberOfDays));
   const [budget, setBudget] = useState<"Low" | "Medium" | "High">(trip.budget);
@@ -124,6 +137,16 @@ export default function EditTripModal({ trip, onClose, onSave }: Props) {
               ))}
             </div>
           </div>
+
+    <div className="space-y-1.5">
+      <label className="text-sm font-medium">Modify itinerary (AI)</label>
+      <input
+        placeholder='e.g. "Make it more adventurous" or "Regenerate Day 2 with nightlife"'
+        className="w-full h-10 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+      />
+    </div>
+
+
         </div>
 
         {/* Footer */}
