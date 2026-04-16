@@ -1,14 +1,13 @@
 "use client";
-import { useState } from "react";
+import { startTransition, useState } from "react";
 import Link from "next/link";
 import Nav from "./nav";
+import { deleteTrip } from "@/app/trips/action";
+import { useEffect } from "react";
+import { useActionState } from "react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-const initialTrips = [
-  { id: "1", destination: "Tokyo, Japan", numberOfDays: 7, budget: "Medium", interests: ["Food", "Culture"] },
-  { id: "2", destination: "Bali, Indonesia", numberOfDays: 10, budget: "Low", interests: ["Adventure"] },
-  { id: "3", destination: "Paris, France", numberOfDays: 5, budget: "High", interests: ["Culture", "Food"] },
-  { id: "4", destination: "New York, USA", numberOfDays: 4, budget: "High", interests: ["Shopping"] },
-];
 
 type Trip = {
   _id: string;
@@ -26,7 +25,7 @@ const budgetColors: Record<string, string> = {
 
 export default function TripsList({data}:{data:Trip[]}) {
 
-  const [trips, setTrips] = useState<Trip[]>(data);
+  const trips = data;
   const [search, setSearch] = useState("");
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
 
@@ -34,10 +33,23 @@ export default function TripsList({data}:{data:Trip[]}) {
     t.destination.toLowerCase().includes(search.toLowerCase())
   );
 
-  const handleDelete = (id: string) => {
-    setTrips((prev) => prev.filter((t) => t._id !== id));
-    setConfirmDelete(null);
-  };
+  const router=useRouter()
+
+  const [deleteState, deleteAction, deleting] = useActionState(deleteTrip, null);
+  useEffect(() => {
+  if (!deleteState) return;
+
+  if (deleteState.status === "error") {
+    toast.error(deleteState.msg);
+  } else {
+    toast.success(deleteState.msg);
+    //beacause state updates, and immediate router refresh(cause re render), all inside same use effect
+    startTransition(()=>{
+     setConfirmDelete(null);
+    })
+    router.refresh()
+  }
+}, [deleteState, router]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -134,17 +146,29 @@ export default function TripsList({data}:{data:Trip[]}) {
             </p>
             <div className="flex gap-3 justify-end">
               <button
-                onClick={() => setConfirmDelete(null)}
+                type="button" onClick={() => setConfirmDelete(null)}
                 className="px-4 py-2 text-sm border border-border rounded-lg hover:bg-muted transition-colors"
               >
                 Cancel
               </button>
-              <button
-                onClick={() => handleDelete(confirmDelete)}
-                className="px-4 py-2 text-sm bg-destructive text-destructive-foreground rounded-lg hover:opacity-90 transition-opacity"
-              >
-                Delete
-              </button>
+        <form action={deleteAction}>
+          <input type="hidden" name="tripId" value={confirmDelete} />
+
+          <button
+            type="submit"
+            disabled={deleting}
+            className="px-4 py-2 text-sm bg-destructive text-destructive-foreground rounded-lg hover:opacity-90 transition-opacity disabled:opacity-60"
+          >
+            {deleting ? (
+              <>
+                <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin mr-2" />
+                Deleting...
+              </>
+            ) : (
+              "Delete"
+            )}
+          </button>
+        </form>
             </div>
           </div>
         </div>

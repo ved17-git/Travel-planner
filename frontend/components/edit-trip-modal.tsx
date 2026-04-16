@@ -1,7 +1,10 @@
 "use client";
 import { useState } from "react";
 import { useEffect } from "react";
-
+import { useActionState } from "react";
+import { UpdateTrip } from "@/app/trips/action";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const INTERESTS = ["Food", "Culture", "Adventure", "Shopping", "Nature", "Nightlife", "History", "Art"] as const;
 const BUDGET_OPTIONS = [
@@ -11,7 +14,7 @@ const BUDGET_OPTIONS = [
 ] as const;
 
 interface Trip {
-  id: string;
+  _id: string;
   destination: string;
   numberOfDays: number;
   budget: "Low" | "Medium" | "High";
@@ -36,30 +39,42 @@ export default function EditTripModal({ trip, onClose, onSave }: Props) {
 }, []);
 
 
-  const [destination, setDestination] = useState(trip.destination);
-  const [days, setDays] = useState(String(trip.numberOfDays));
+
   const [budget, setBudget] = useState<"Low" | "Medium" | "High">(trip.budget);
   const [interests, setInterests] = useState<string[]>(trip.interests);
-  const [saving, setSaving] = useState(false);
+  //const [saving, setSaving] = useState(false);
 
+  const router=useRouter()
   const toggle = (i: string) =>
     setInterests((prev) => prev.includes(i) ? prev.filter((x) => x !== i) : [...prev, i]);
 
-  const handleSave = async () => {
-    setSaving(true);
-    // TODO: replace with real API call
-    // await fetch(`/api/trips/${trip.id}`, { method: "PATCH", body: JSON.stringify({...}) })
-    await new Promise((r) => setTimeout(r, 600));
-    onSave({ ...trip, destination, numberOfDays: Number(days), budget, interests });
-    setSaving(false);
-    onClose();
-  };
+
+  const [data, action, saving]=useActionState(UpdateTrip, null)
+
+  useEffect(()=>{
+  if(!data) return
+  if(data.status=="error"){
+     toast.error(data.msg)
+  }
+  else{
+    toast.success(data.msg)
+    onClose()
+    router.refresh()
+  }
+  },[data, router])
 
   return (
     <div
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
       onClick={onClose}
     >
+      <form action={action}> 
+        <input type="hidden"  name="tripId" value={trip._id}/>
+        <input type="hidden" name="budget" value={budget} />
+                {interests.map((i) => (
+          <input key={i} type="hidden" name="interests" value={i} />
+        ))}
+
       <div
         className="bg-card border border-border rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
@@ -71,15 +86,16 @@ export default function EditTripModal({ trip, onClose, onSave }: Props) {
             ✕
           </button>
         </div>
-
+  
+     
         {/* Body */}
         <div className="p-6 space-y-6">
           {/* Destination */}
           <div className="space-y-1.5">
             <label className="text-sm font-medium">Destination</label>
             <input
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
+              name="destination"
+              defaultValue={trip.destination}
               placeholder="e.g. Tokyo, Japan"
               className="w-full h-10 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
             />
@@ -90,10 +106,10 @@ export default function EditTripModal({ trip, onClose, onSave }: Props) {
             <label className="text-sm font-medium">Number of days</label>
             <input
               type="number"
+              name="numberOfDays"
               min={1}
               max={30}
-              value={days}
-              onChange={(e) => setDays(e.target.value)}
+              defaultValue={trip.numberOfDays}
               className="w-full h-10 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
@@ -141,6 +157,7 @@ export default function EditTripModal({ trip, onClose, onSave }: Props) {
     <div className="space-y-1.5">
       <label className="text-sm font-medium">Modify itinerary (AI)</label>
       <input
+      name="prompt"
         placeholder='e.g. "Make it more adventurous" or "Regenerate Day 2 with nightlife"'
         className="w-full h-10 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
       />
@@ -152,13 +169,13 @@ export default function EditTripModal({ trip, onClose, onSave }: Props) {
         {/* Footer */}
         <div className="flex gap-3 p-6 border-t border-border/40">
           <button
-            onClick={onClose}
+           type="button" onClick={onClose}
             className="flex-1 h-10 border border-border rounded-lg text-sm font-medium hover:bg-muted transition-colors"
           >
             Cancel
           </button>
           <button
-            onClick={handleSave}
+          type="submit"
             disabled={saving}
             className="flex-1 h-10 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-60"
           >
@@ -166,6 +183,7 @@ export default function EditTripModal({ trip, onClose, onSave }: Props) {
           </button>
         </div>
       </div>
+      </form>
     </div>
   );
 }

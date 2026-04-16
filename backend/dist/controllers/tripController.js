@@ -1,6 +1,7 @@
 import { tripModel } from "../db.js";
 import { OpenRouter } from "@openrouter/sdk";
 import 'dotenv/config';
+import { isValidPrompt } from "../utils.js";
 const openrouter = new OpenRouter({
     apiKey: process.env.OPENROUTER_API_KEY
 });
@@ -204,7 +205,12 @@ export const updateTrip = async (req, res) => {
         const budgetChanged = budget !== undefined && budget !== existingTrip.budget;
         const interestsChanged = interests !== undefined &&
             JSON.stringify(interests) !== JSON.stringify(existingTrip.interests);
-        const hasPrompt = !!prompt;
+        const hasPrompt = typeof prompt === "string" && prompt.trim().length > 0;
+        if (hasPrompt && !isValidPrompt(prompt)) {
+            return res.status(400).json({
+                msg: "Invalid prompt. Please enter a meaningful travel-related request."
+            });
+        }
         const nothingChanged = !destinationChanged &&
             !daysChanged &&
             !budgetChanged &&
@@ -282,7 +288,7 @@ Return ONLY JSON. No explanation.
             itinerary: parsed.itinerary,
             budgetEstimate: parsed.budgetEstimate,
             hotelSuggestions: parsed.hotelSuggestions,
-        }, { new: true });
+        }, { returnDocument: 'after' });
         return res.status(200).json({
             msg: "Trip updated successfully",
             trip: updatedTrip,

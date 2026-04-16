@@ -2,6 +2,7 @@ import type { Request, Response } from "express"
 import { tripModel } from "../db.js"
 import { OpenRouter } from "@openrouter/sdk";
 import 'dotenv/config'
+import { isValidPrompt } from "../utils.js";
 
 const openrouter = new OpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY
@@ -257,7 +258,13 @@ const { destination, numberOfDays, budget, interests, prompt } = req.body || {};
     const interestsChanged =
       interests !== undefined &&
       JSON.stringify(interests) !== JSON.stringify(existingTrip.interests);
-    const hasPrompt = !!prompt;
+    const hasPrompt = typeof prompt === "string" && prompt.trim().length > 0;
+
+    if (hasPrompt && !isValidPrompt(prompt)) {
+  return res.status(400).json({
+    msg: "Invalid prompt. Please enter a meaningful travel-related request."
+  });
+}
 
     const nothingChanged =
       !destinationChanged &&
