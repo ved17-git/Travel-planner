@@ -64,7 +64,7 @@ IMPORTANT:
 `;
         const response = await openrouter.chat.send({
             chatRequest: {
-                model: "openai/gpt-4o-mini",
+                model: process.env.OPENROUTER_MODEL,
                 responseFormat: { type: "json_object" },
                 messages: [
                     {
@@ -95,6 +95,9 @@ IMPORTANT:
     catch (error) {
         console.log("Createtrip api error");
         console.log(error);
+        return res.status(500).json({
+            msg: "Internal Server Error"
+        });
     }
 };
 export const getAllTrips = async (req, res) => {
@@ -115,6 +118,66 @@ export const getAllTrips = async (req, res) => {
     catch (error) {
         console.log("getAllTrips api error");
         console.log(error);
+        return res.status(500).json({
+            msg: "Internal Server Error"
+        });
+    }
+};
+export const getTrip = async (req, res) => {
+    try {
+        if (!req.user) {
+            return res.status(401).json({
+                msg: "Unauthorized"
+            });
+        }
+        const tripId = req.params.tripId;
+        const trip = await tripModel.findById(tripId);
+        if (trip) {
+            return res.status(200).json({
+                msg: "Trip found successfully",
+                trip
+            });
+        }
+        else {
+            return res.status(401).json({
+                msg: "Trip not found"
+            });
+        }
+    }
+    catch (error) {
+        console.log("getAllTrips api error");
+        console.log(error);
+        return res.status(500).json({
+            msg: "Internal Server Error"
+        });
+    }
+};
+export const deleteTrip = async (req, res) => {
+    try {
+        if (!req.user) {
+            return res.status(401).json({
+                msg: "Unauthorized"
+            });
+        }
+        const tripId = req.params.tripId;
+        const trip = await tripModel.findByIdAndDelete(tripId);
+        if (trip) {
+            return res.status(200).json({
+                msg: "Trip deleted successfully",
+            });
+        }
+        else {
+            return res.status(401).json({
+                msg: "Trip not found"
+            });
+        }
+    }
+    catch (error) {
+        console.log("getAllTrips api error");
+        console.log(error);
+        return res.status(500).json({
+            msg: "Internal Server Error"
+        });
     }
 };
 //# sourceMappingURL=tripController.js.map

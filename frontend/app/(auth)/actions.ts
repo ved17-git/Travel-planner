@@ -1,5 +1,4 @@
 "use server"
-import { redirect } from "next/navigation"
 import { BASEURL } from "../config"
 import { cookies } from "next/headers"
 
@@ -35,7 +34,7 @@ export async function registerUser(previousState: unknown, formData: FormData){
         }
    }
    return {
-     status:"succes",
+     status:"success",
      msg:data.msg
    }
 
@@ -74,6 +73,35 @@ export async function loginUser(previousState: unknown, formData:FormData){
         maxAge: 60*60 * 2  //60*60=> 1hr 
     })
   
+    return {
+        status:"success",
+        msg:data.msg
+    }
+
+}
+
+export async function Logout(prevState: { status: string; msg: string } | null) {
+
+    const cookieStore=await cookies()
+    const token=cookieStore.get('token')?.value
+    
+    const res=await fetch(`${BASEURL}/logout`,{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json",
+            "Authorization":`Bearer ${token}`
+        }
+    })
+
+    const data=await res.json()
+    if(!res.ok){
+        return {
+            status:"error",
+            msg:data.msg
+        }
+    }
+    cookieStore.delete("token")
+
     return {
         status:"success",
         msg:data.msg

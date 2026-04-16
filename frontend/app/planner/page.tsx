@@ -2,52 +2,47 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useActionState } from "react";
+import { generateTrip } from "./action";
+import { useEffect } from "react";
+import { toast } from "sonner";
+import Nav from "@/components/nav";
+
 
 const INTERESTS = ["Food", "Culture", "Adventure", "Shopping", "Nature", "Nightlife", "History", "Art"] as const;
 
 const BUDGET_OPTIONS = [
-  { value: "Low", label: "Budget", desc: "Hostels, street food, free attractions", active: "border-green-500/30 bg-green-500/5 text-green-400" },
-  { value: "Medium", label: "Comfort", desc: "3-star hotels, restaurants, paid sites", active: "border-amber-500/30 bg-amber-500/5 text-amber-400" },
-  { value: "High", label: "Luxury", desc: "5-star hotels, fine dining, premium tours", active: "border-purple-500/30 bg-purple-500/5 text-purple-400" },
+  { value: "Low", label: "Low", desc: "Hostels, street food, free attractions", active: "border-green-500/30 bg-green-500/5 text-green-400" },
+  { value: "Medium", label: "Medium", desc: "3-star hotels, restaurants, paid sites", active: "border-amber-500/30 bg-amber-500/5 text-amber-400" },
+  { value: "High", label: "High", desc: "5-star hotels, fine dining, premium tours", active: "border-purple-500/30 bg-purple-500/5 text-purple-400" },
 ] as const;
 
 export default function Planner() {
   const router = useRouter();
-  const [destination, setDestination] = useState("");
-  const [days, setDays] = useState("");
-  const [budget, setBudget] = useState<"Low" | "Medium" | "High">("Medium");
+  const [budget, setBudget] = useState<"Low" | "Medium" | "High">("Low");
   const [interests, setInterests] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
+
+  const [data, action, loading]=useActionState(generateTrip, null)
+
+  useEffect(()=>{
+   if(!data) return
+
+   if(data.status==="error"){
+     toast.error(data.msg)
+   }
+
+  },[data])
+
+  
 
   const toggle = (i: string) =>
     setInterests((prev) => prev.includes(i) ? prev.filter((x) => x !== i) : [...prev, i]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    // TODO: replace with real API call
-    await new Promise((r) => setTimeout(r, 1500));
-    setLoading(false);
-    router.push("/trips/1");
-  };
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Nav */}
-      <header className="sticky top-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-xl">
-        <div className="mx-auto max-w-7xl px-6 flex h-16 items-center justify-between">
-          <div className="flex items-center gap-8">
-            <Link href="/dashboard" className="text-xl font-bold">
-              Trao<span className="text-primary">.</span>
-            </Link>
-            <nav className="hidden md:flex items-center gap-1">
-              <Link href="/dashboard" className="px-3 py-1.5 text-sm rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">Dashboard</Link>
-              <Link href="/trips" className="px-3 py-1.5 text-sm rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">My Trips</Link>
-            </nav>
-          </div>
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-xs font-bold text-primary-foreground">JD</div>
-        </div>
-      </header>
+
+      <Nav/>
 
       <main className="mx-auto max-w-2xl px-4 sm:px-6 py-12">
         <div className="mb-10">
@@ -59,7 +54,7 @@ export default function Planner() {
           <p className="text-muted-foreground">Tell us where youre headed and well generate a complete, personalized itinerary.</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form action={action} className="space-y-8">
           {/* Destination */}
           <div className="space-y-2">
             <label className="text-sm font-medium flex items-center gap-2">
@@ -67,8 +62,7 @@ export default function Planner() {
             </label>
             <input
               placeholder="e.g. Tokyo, Japan"
-              value={destination}
-              onChange={(e) => setDestination(e.target.value)}
+              name="destination"
               className="w-full h-12 px-4 rounded-xl border border-border bg-background text-base focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
@@ -83,8 +77,7 @@ export default function Planner() {
               min={1}
               max={30}
               placeholder="e.g. 7"
-              value={days}
-              onChange={(e) => setDays(e.target.value)}
+              name="numberOfDays"
               className="w-full h-12 px-4 rounded-xl border border-border bg-background text-base focus:outline-none focus:ring-2 focus:ring-ring"
             />
             <p className="text-xs text-muted-foreground">Between 1 and 30 days</p>
@@ -92,6 +85,7 @@ export default function Planner() {
 
           {/* Budget */}
           <div className="space-y-3">
+            <input type="hidden" name="budget" value={budget}/>
             <label className="text-sm font-medium flex items-center gap-2">
               <span className="text-primary">$</span> Budget level
             </label>
@@ -100,11 +94,13 @@ export default function Planner() {
                 <button
                   key={value}
                   type="button"
+                  name="budget"
                   onClick={() => setBudget(value)}
                   className={`p-4 rounded-xl border-2 text-left transition-all ${
                     budget === value ? active : "border-border/60 bg-card hover:border-border"
                   }`}
                 >
+                  
                   <p className="font-semibold text-sm mb-0.5">{label}</p>
                   <p className="text-xs text-muted-foreground leading-tight hidden sm:block">{desc}</p>
                 </button>
@@ -114,8 +110,10 @@ export default function Planner() {
 
           {/* Interests */}
           <div className="space-y-3">
+            <input type="hidden" name="interests" value={interests}/>
             <label className="text-sm font-medium">What are your interests?</label>
             <p className="text-xs text-muted-foreground -mt-1">Select all that apply</p>
+            
             <div className="flex flex-wrap gap-2">
               {INTERESTS.map((interest) => (
                 <button
@@ -128,6 +126,7 @@ export default function Planner() {
                       : "border-border/60 bg-card text-muted-foreground hover:border-border hover:text-foreground"
                   }`}
                 >
+               
                   {interest}
                 </button>
               ))}

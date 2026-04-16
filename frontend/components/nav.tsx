@@ -2,15 +2,33 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
+import {Logout} from '../app/(auth)/actions'
+import { useActionState } from "react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 const navLinks = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/trips", label: "My Trips" },
 ];
 
 export default function Nav() {
+  const router=useRouter()
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const [data, action, loading]=useActionState(Logout, null)
+
+  useEffect(()=>{
+   if(!data) return
+   if(data.status==="error"){
+    toast.error(data.msg)
+   }else{
+    toast.success(data.msg)
+    router.push('/login')
+   }
+
+  },[data, router])
 
   return (
     <>
@@ -51,12 +69,22 @@ export default function Nav() {
           </div>
 
           <div className="flex items-center gap-3">
-            <Link
-              href="/planner"
-              className="hidden sm:flex items-center gap-1.5 text-sm font-semibold bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"
-            >
-              + Plan a Trip
-            </Link>
+            <form action={action}>
+<button
+  type="submit"
+  disabled={loading}
+  className="inline-flex items-center gap-2 text-sm cursor-pointer font-medium border border-border px-3 py-1.5 rounded-lg hover:bg-destructive/10 hover:text-destructive hover:border-destructive/40 transition-colors disabled:opacity-60"
+>
+  {loading ? (
+    <>
+      <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin cursor-pointer" />
+      Logging out...
+    </>
+  ) : (
+    "Logout"
+  )}
+</button>
+            </form>
             <Link href="/settings">
               <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-xs font-bold text-primary-foreground cursor-pointer hover:opacity-90 transition-opacity">
                 JD

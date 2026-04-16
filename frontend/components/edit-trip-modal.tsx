@@ -139,7 +139,7 @@ export default function EditTripModal({ trip, onClose, onSave }: Props) {
             disabled={saving}
             className="flex-1 h-10 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-60"
           >
-            {saving ? "Saving..." : "Save Changes"}
+            {saving ? "Regenerating..." : "✦ Regenerate"}
           </button>
         </div>
       </div>

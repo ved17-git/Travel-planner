@@ -54,7 +54,7 @@ export const tripSchema=new Schema({
         interests:[
         {
             type:String,
-            enum:["Food", "Culture", "Adventure", "Shopping"]
+            enum:["Food", "Culture", "Adventure", "Shopping", "Nature", "Nightlife", "History", "Art"]
         }
     ],
 

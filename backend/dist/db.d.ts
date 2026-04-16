@@ -81,7 +81,7 @@ export declare const tripSchema: mongoose.Schema<any, mongoose.Model<any, any, a
     destination: string;
     numberOfDays: number;
     budget: "Low" | "Medium" | "High";
-    interests: ("Food" | "Culture" | "Adventure" | "Shopping")[];
+    interests: ("Food" | "Culture" | "Adventure" | "Shopping" | "Nature" | "Nightlife" | "History" | "Art")[];
     itinerary: mongoose.Types.DocumentArray<{
         activities: mongoose.Types.DocumentArray<{
             name?: string | null;
@@ -183,7 +183,7 @@ export declare const tripSchema: mongoose.Schema<any, mongoose.Model<any, any, a
     destination: string;
     numberOfDays: number;
     budget: "Low" | "Medium" | "High";
-    interests: ("Food" | "Culture" | "Adventure" | "Shopping")[];
+    interests: ("Food" | "Culture" | "Adventure" | "Shopping" | "Nature" | "Nightlife" | "History" | "Art")[];
     itinerary: mongoose.Types.DocumentArray<{
         activities: mongoose.Types.DocumentArray<{
             name?: string | null;
@@ -289,7 +289,7 @@ export declare const tripSchema: mongoose.Schema<any, mongoose.Model<any, any, a
     destination: string;
     numberOfDays: number;
     budget: "Low" | "Medium" | "High";
-    interests: ("Food" | "Culture" | "Adventure" | "Shopping")[];
+    interests: ("Food" | "Culture" | "Adventure" | "Shopping" | "Nature" | "Nightlife" | "History" | "Art")[];
     itinerary: mongoose.Types.DocumentArray<{
         activities: mongoose.Types.DocumentArray<{
             name?: string | null;
@@ -397,7 +397,7 @@ export declare const tripSchema: mongoose.Schema<any, mongoose.Model<any, any, a
     destination: string;
     numberOfDays: number;
     budget: "Low" | "Medium" | "High";
-    interests: ("Food" | "Culture" | "Adventure" | "Shopping")[];
+    interests: ("Food" | "Culture" | "Adventure" | "Shopping" | "Nature" | "Nightlife" | "History" | "Art")[];
     itinerary: mongoose.Types.DocumentArray<{
         activities: mongoose.Types.DocumentArray<{
             name?: string | null;
@@ -506,7 +506,7 @@ export declare const tripModel: mongoose.Model<{
     destination: string;
     numberOfDays: number;
     budget: "Low" | "Medium" | "High";
-    interests: ("Food" | "Culture" | "Adventure" | "Shopping")[];
+    interests: ("Food" | "Culture" | "Adventure" | "Shopping" | "Nature" | "Nightlife" | "History" | "Art")[];
     itinerary: mongoose.Types.DocumentArray<{
         activities: mongoose.Types.DocumentArray<{
             name?: string | null;
@@ -610,7 +610,7 @@ export declare const tripModel: mongoose.Model<{
     destination: string;
     numberOfDays: number;
     budget: "Low" | "Medium" | "High";
-    interests: ("Food" | "Culture" | "Adventure" | "Shopping")[];
+    interests: ("Food" | "Culture" | "Adventure" | "Shopping" | "Nature" | "Nightlife" | "History" | "Art")[];
     itinerary: mongoose.Types.DocumentArray<{
         activities: mongoose.Types.DocumentArray<{
             name?: string | null;
@@ -716,7 +716,7 @@ export declare const tripModel: mongoose.Model<{
     destination: string;
     numberOfDays: number;
     budget: "Low" | "Medium" | "High";
-    interests: ("Food" | "Culture" | "Adventure" | "Shopping")[];
+    interests: ("Food" | "Culture" | "Adventure" | "Shopping" | "Nature" | "Nightlife" | "History" | "Art")[];
     itinerary: mongoose.Types.DocumentArray<{
         activities: mongoose.Types.DocumentArray<{
             name?: string | null;
@@ -826,7 +826,7 @@ export declare const tripModel: mongoose.Model<{
     destination: string;
     numberOfDays: number;
     budget: "Low" | "Medium" | "High";
-    interests: ("Food" | "Culture" | "Adventure" | "Shopping")[];
+    interests: ("Food" | "Culture" | "Adventure" | "Shopping" | "Nature" | "Nightlife" | "History" | "Art")[];
     itinerary: mongoose.Types.DocumentArray<{
         activities: mongoose.Types.DocumentArray<{
             name?: string | null;
@@ -928,7 +928,7 @@ export declare const tripModel: mongoose.Model<{
     destination: string;
     numberOfDays: number;
     budget: "Low" | "Medium" | "High";
-    interests: ("Food" | "Culture" | "Adventure" | "Shopping")[];
+    interests: ("Food" | "Culture" | "Adventure" | "Shopping" | "Nature" | "Nightlife" | "History" | "Art")[];
     itinerary: mongoose.Types.DocumentArray<{
         activities: mongoose.Types.DocumentArray<{
             name?: string | null;
@@ -1034,7 +1034,7 @@ export declare const tripModel: mongoose.Model<{
     destination: string;
     numberOfDays: number;
     budget: "Low" | "Medium" | "High";
-    interests: ("Food" | "Culture" | "Adventure" | "Shopping")[];
+    interests: ("Food" | "Culture" | "Adventure" | "Shopping" | "Nature" | "Nightlife" | "History" | "Art")[];
     itinerary: mongoose.Types.DocumentArray<{
         activities: mongoose.Types.DocumentArray<{
             name?: string | null;
@@ -1142,7 +1142,7 @@ export declare const tripModel: mongoose.Model<{
     destination: string;
     numberOfDays: number;
     budget: "Low" | "Medium" | "High";
-    interests: ("Food" | "Culture" | "Adventure" | "Shopping")[];
+    interests: ("Food" | "Culture" | "Adventure" | "Shopping" | "Nature" | "Nightlife" | "History" | "Art")[];
     itinerary: mongoose.Types.DocumentArray<{
         activities: mongoose.Types.DocumentArray<{
             name?: string | null;
@@ -1250,7 +1250,7 @@ export declare const tripModel: mongoose.Model<{
     destination: string;
     numberOfDays: number;
     budget: "Low" | "Medium" | "High";
-    interests: ("Food" | "Culture" | "Adventure" | "Shopping")[];
+    interests: ("Food" | "Culture" | "Adventure" | "Shopping" | "Nature" | "Nightlife" | "History" | "Art")[];
     itinerary: mongoose.Types.DocumentArray<{
         activities: mongoose.Types.DocumentArray<{
             name?: string | null;
