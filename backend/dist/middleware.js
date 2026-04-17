@@ -1,5 +1,5 @@
 import jwt, {} from 'jsonwebtoken';
-export const middleware = (req, res, next) => {
+export const authMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         res.status(400).json({

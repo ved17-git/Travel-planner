@@ -1,14 +1,14 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import { router } from './routes/userRoutes.js';
+import { userRouter } from './routes/userRoutes.js';
 import { tripRouter } from './routes/tripRoutes.js';
 import 'dotenv/config';
 const app = express();
 const PORT = process.env.PORT;
 app.use(express.json());
 app.use(cors());
-app.use('/', router);
+app.use('/', userRouter);
 app.use('/', tripRouter);
 async function connectDB() {
     try {
@@ -28,6 +28,7 @@ app.get('/', (req, res) => {
         msg: "test endpoint"
     });
 });
+// module.exports =app
 app.listen(PORT, () => {
     console.log(`Listening on ${PORT}`);
 });

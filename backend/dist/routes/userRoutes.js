@@ -1,9 +1,9 @@
 import express from 'express';
 import { signIn, register, logout, profile } from '../controllers/userController.js';
-import { middleware } from '../middleware.js';
-export const router = express.Router();
-router.post('/signin', signIn);
-router.post('/register', register);
-router.post('/logout', middleware, logout);
-router.get('/me', middleware, profile);
+import { authMiddleware } from '../middleware.js';
+export const userRouter = express.Router();
+userRouter.post('/signin', signIn);
+userRouter.post('/register', register);
+userRouter.post('/logout', authMiddleware, logout);
+userRouter.get('/me', authMiddleware, profile);
 //# sourceMappingURL=userRoutes.js.map
