@@ -55,7 +55,7 @@ export default async function Settings() {
         {/* Avatar */}
         <div className="flex items-center gap-4 mb-2">
           <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center text-lg font-bold text-primary-foreground">
-            {profile.firstName[0]}{profile.lastName[0]}
+            {profile.firstName[0].toUpperCase()}{profile.lastName[0].toUpperCase()}
           </div>
           <div>
             <p className="font-semibold text-sm">
