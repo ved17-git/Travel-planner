@@ -1,5 +1,4 @@
 "use server"
-import Link from "next/link";
 import TripsList from "@/components/trip-list-client";
 import { BASEURL } from "../config";
 import { cookies } from "next/headers";

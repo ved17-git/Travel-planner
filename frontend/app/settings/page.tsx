@@ -1,14 +1,6 @@
-import Link from "next/link";
 import Nav from "@/components/nav";
-import {
-  Avatar,
-  AvatarBadge,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
 import { cookies } from "next/headers";
 import { BASEURL } from "../config";
-import { log } from "console";
 import { redirect } from "next/navigation";
 
 export default async function Settings() {

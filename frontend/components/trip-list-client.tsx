@@ -98,7 +98,7 @@ export default function TripsList({data}:{data:Trip[]}) {
                 className="group flex items-center justify-between p-5 rounded-xl border border-border/60 bg-card hover:border-primary/20 transition-all"
               >
                 <Link href={`/trips/${trip._id}`} className="flex items-center gap-4 flex-1 min-w-0 cursor-pointer">
-                  <div className="w-11 h-11 flex-shrink-0 rounded-xl bg-primary/10 flex items-center justify-center text-xl">
+                  <div className="w-11 h-11 shrink-0 rounded-xl bg-primary/10 flex items-center justify-center text-xl">
                     📍
                   </div>
                   <div className="min-w-0">
@@ -116,7 +116,7 @@ export default function TripsList({data}:{data:Trip[]}) {
                   </div>
                 </Link>
 
-                <div className="flex items-center gap-3 ml-4 flex-shrink-0">
+                <div className="flex items-center gap-3 ml-4 shrink-0">
                   <span className={`text-xs border px-2 py-0.5 rounded hidden sm:inline-flex ${budgetColors[trip.budget]}`}>
                     {trip.budget}
                   </span>

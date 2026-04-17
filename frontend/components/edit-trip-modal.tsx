@@ -31,7 +31,7 @@ interface Props {
   onSave: (updated: Trip) => void;
 }
 
-export default function EditTripModal({ trip, onClose, onSave }: Props) {
+export default function EditTripModal({ trip, onClose }: Props) {
 
 
   useEffect(() => {

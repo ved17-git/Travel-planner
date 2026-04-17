@@ -15,7 +15,7 @@ export default function Landing() {
 
       {/* Hero */}
       <section className="relative overflow-hidden pt-24 pb-32 px-4 text-center">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-150 h-75 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative mx-auto max-w-4xl">
           <span className="inline-flex items-center gap-1.5 bg-muted text-muted-foreground text-xs font-medium px-3 py-1 rounded-full mb-6">
             ✦ AI-Powered Travel Planning
@@ -101,7 +101,7 @@ export default function Landing() {
               { step: "03", title: "Refine and go", desc: "Review your plan, regenerate anything you don't love, and start packing." },
             ].map(({ step, title, desc }) => (
               <div key={step} className="flex gap-6 items-start">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full border-2 border-primary/30 flex items-center justify-center">
+                <div className="shrink-0 w-12 h-12 rounded-full border-2 border-primary/30 flex items-center justify-center">
                   <span className="text-xs font-bold text-primary">{step}</span>
                 </div>
                 <div className="pt-3">

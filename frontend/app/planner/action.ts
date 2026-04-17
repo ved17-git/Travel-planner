@@ -1,5 +1,4 @@
 "use server"
-import { log } from "console"
 import { BASEURL } from "../config"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
