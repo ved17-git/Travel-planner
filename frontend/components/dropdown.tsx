@@ -204,7 +204,7 @@ export default function SearchSelect({
                         px-4 py-2.5 text-sm cursor-pointer select-none
                         transition-colors duration-75
                         ${selected
-                          ? "text-primary font-medium bg-primary/[0.08]"
+                          ? "text-primary font-medium bg-primary/8"
                           : "text-foreground hover:bg-accent hover:text-accent-foreground"
                         }
                       `}

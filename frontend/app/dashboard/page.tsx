@@ -1,5 +1,3 @@
-import Link from "next/link";
-import Nav from "@/components/nav";
 import DashboardPage from "@/components/dashboard-client";
 import { cookies } from "next/headers";
 import { BASEURL } from "../config";
