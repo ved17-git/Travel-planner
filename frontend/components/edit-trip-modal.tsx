@@ -6,6 +6,7 @@ import { UpdateTrip } from "@/app/trips/action";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import SearchSelect from "./dropdown";
+import { DESTINATIONS } from "@/app/destinations";
 
 
 const INTERESTS = ["Food", "Culture", "Adventure", "Shopping", "Nature", "Nightlife", "History", "Art"] as const;
@@ -14,19 +15,7 @@ const BUDGET_OPTIONS = [
   { value: "Medium", label: "Comfort", active: "border-amber-500/30 bg-amber-500/5 text-amber-400" },
   { value: "High", label: "Luxury", active: "border-purple-500/30 bg-purple-500/5 text-purple-400" },
 ] as const;
-const DESTINATIONS = [
-  "Tokyo, Japan",
-  "Bali, Indonesia",
-  "Paris, France",
-  "New York, USA",
-  "Dubai, UAE",
-  "London, UK",
-  "Rome, Italy",
-  "Bangkok, Thailand",
-  "Singapore",
-  "Goa, India",
-  "Kashmir, India",
-];
+
 
 interface Trip {
   _id: string;

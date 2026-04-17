@@ -5,29 +5,13 @@ import { generateTrip } from "./action";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import Nav from "@/components/nav";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Command, CommandGroup, CommandItem, CommandInput } from "@/components/ui/command";
+import { DESTINATIONS } from "../destinations";
+
 import SearchSelect from "@/components/dropdown";
 
 const INTERESTS = ["Food", "Culture", "Adventure", "Shopping", "Nature", "Nightlife", "History", "Art"] as const;
 
-const DESTINATIONS = [
-  "Tokyo, Japan",
-  "Bali, Indonesia",
-  "Paris, France",
-  "New York, USA",
-  "Dubai, UAE",
-  "London, UK",
-  "Rome, Italy",
-  "Bangkok, Thailand",
-  "Singapore",
-  "Goa, India",
-  "Kashmir, India",
-];
+
 
 const BUDGET_OPTIONS = [
   { value: "Low", label: "Low", desc: "Hostels, street food, free attractions", active: "border-green-500/30 bg-green-500/5 text-green-400" },

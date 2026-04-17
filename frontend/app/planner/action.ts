@@ -10,9 +10,13 @@ export async function generateTrip(previousState:unknown, formData:FormData) {
     const budget=formData.get("budget")
   const interest = formData.getAll("interests") as string[];
 
-const interestsArray = interest.flatMap((interest) => 
-  interest.split(',').map((item) => item.trim())
-);
+const interestsArray = interest
+  .flatMap((i) => i.split(","))
+  .map((i) => i.trim())
+  .filter((i) => i.length > 0); 
+  
+
+
 
     
     const trip={
@@ -21,8 +25,16 @@ const interestsArray = interest.flatMap((interest) =>
         budget,
         interests:interestsArray
     };
-   
+    
+
     console.log(trip);
+
+if (!destination || !numberOfDays || !budget || interestsArray.length === 0) {
+  return {
+    status: "error",
+    msg: "Enter all details"
+  };
+}
     
     const cookieStore=await cookies()
     const token=cookieStore.get('token')?.value
