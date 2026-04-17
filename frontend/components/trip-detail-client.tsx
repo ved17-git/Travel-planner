@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import EditTripModal from "@/components/edit-trip-modal";
 import dynamic from "next/dynamic";
+import Nav from "./nav";
 
 const TripMap = dynamic(() => import("@/components/trip-map"), { ssr: false });
 
@@ -97,27 +98,7 @@ const visibleMapActivities =
   return (
     <div className="min-h-screen bg-background">
       {/* Nav */}
-      <header className="sticky top-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-xl">
-        <div className="mx-auto max-w-7xl px-6 flex h-16 items-center justify-between">
-          <div className="flex items-center gap-8">
-            <Link href="/dashboard" className="text-xl font-bold">
-              Trao<span className="text-primary">.</span>
-            </Link>
-            <nav className="hidden md:flex items-center gap-1">
-              <Link href="/dashboard" className="px-3 py-1.5 text-sm rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
-                Dashboard
-              </Link>
-              <Link href="/trips" className="px-3 py-1.5 text-sm rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
-                My Trips
-              </Link>
-            </nav>
-          </div>
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-xs font-bold text-primary-foreground">
-            JD
-          </div>
-        </div>
-      </header>
-
+ <Nav/>
       <main className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10">
         {/* Back link */}
         <Link

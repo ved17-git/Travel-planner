@@ -5,6 +5,8 @@ import { useActionState } from "react";
 import { UpdateTrip } from "@/app/trips/action";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import SearchSelect from "./dropdown";
+
 
 const INTERESTS = ["Food", "Culture", "Adventure", "Shopping", "Nature", "Nightlife", "History", "Art"] as const;
 const BUDGET_OPTIONS = [
@@ -12,6 +14,19 @@ const BUDGET_OPTIONS = [
   { value: "Medium", label: "Comfort", active: "border-amber-500/30 bg-amber-500/5 text-amber-400" },
   { value: "High", label: "Luxury", active: "border-purple-500/30 bg-purple-500/5 text-purple-400" },
 ] as const;
+const DESTINATIONS = [
+  "Tokyo, Japan",
+  "Bali, Indonesia",
+  "Paris, France",
+  "New York, USA",
+  "Dubai, UAE",
+  "London, UK",
+  "Rome, Italy",
+  "Bangkok, Thailand",
+  "Singapore",
+  "Goa, India",
+  "Kashmir, India",
+];
 
 interface Trip {
   _id: string;
@@ -43,6 +58,9 @@ export default function EditTripModal({ trip, onClose, onSave }: Props) {
   const [budget, setBudget] = useState<"Low" | "Medium" | "High">(trip.budget);
   const [interests, setInterests] = useState<string[]>(trip.interests);
   //const [saving, setSaving] = useState(false);
+
+    const [destination, setDestination] = useState(trip.destination);
+  const [days, setDays] = useState(String(trip.numberOfDays));
 
   const router=useRouter()
   const toggle = (i: string) =>
@@ -93,25 +111,28 @@ export default function EditTripModal({ trip, onClose, onSave }: Props) {
           {/* Destination */}
           <div className="space-y-1.5">
             <label className="text-sm font-medium">Destination</label>
-            <input
-              name="destination"
-              defaultValue={trip.destination}
-              placeholder="e.g. Tokyo, Japan"
-              className="w-full h-10 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-            />
+     <SearchSelect
+       name="destination"
+       options={DESTINATIONS}
+       value={destination}
+       onChange={setDestination}
+       placeholder="e.g. Tokyo, Japan"
+       searchPlaceholder="Search destination..."
+       showSearch={true}
+     />
           </div>
 
           {/* Days */}
           <div className="space-y-1.5">
             <label className="text-sm font-medium">Number of days</label>
-            <input
-              type="number"
-              name="numberOfDays"
-              min={1}
-              max={30}
-              defaultValue={trip.numberOfDays}
-              className="w-full h-10 px-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-            />
+<SearchSelect
+  name="numberOfDays"
+  options={Array.from({ length: 10 }, (_, i) => String(i + 1))}
+  value={days}
+  onChange={setDays}
+  placeholder="Select days"
+  showSearch={false}
+/>
           </div>
 
           {/* Budget */}

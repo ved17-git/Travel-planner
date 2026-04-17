@@ -35,9 +35,18 @@ const interestsArray = interest.flatMap((interest) =>
         },
         body:JSON.stringify(trip)
     })
+
+    // only for rate limitter
+    if (res.status === 429) {
+            return {
+                status: "error",
+                msg: "You are making too many requests. Please wait a moment and try again."
+            };
+    }
     const data=await res.json()
     console.log(res);
-        console.log(data);
+    console.log(data);
+
     if(!res.ok){
         return {
             status:"error",

@@ -32,6 +32,12 @@ export async function UpdateTrip(previousState:unknown, formData:FormData) {
         },
         body:JSON.stringify(UpdatedTrip)
     })
+    if (res.status === 429) {
+            return {
+                status: "error",
+                msg: "You are making too many requests. Please wait a moment and try again."
+            };
+    }
     const data=await res.json()
 
     if(!res.ok){

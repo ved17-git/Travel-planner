@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Command, CommandGroup, CommandItem, CommandInput } from "@/components/ui/command";
-import Example from "@/components/dropdown";
+import SearchSelect from "@/components/dropdown";
 
 const INTERESTS = ["Food", "Culture", "Adventure", "Shopping", "Nature", "Nightlife", "History", "Art"] as const;
 
@@ -46,7 +46,6 @@ export default function Planner() {
 
 
   const [data, action, loading]=useActionState(generateTrip, null)
-  const [open, setOpen] = useState(false);
 
   useEffect(()=>{
    if(!data) return
@@ -57,15 +56,13 @@ export default function Planner() {
 
   },[data])
 
-  
-
   const toggle = (i: string) =>
     setInterests((prev) => prev.includes(i) ? prev.filter((x) => x !== i) : [...prev, i]);
 
 
   return (<> 
     
-    <Example/>
+    {/* <Example/> */}
 
     <div className="min-h-screen bg-background">
 
@@ -86,71 +83,37 @@ export default function Planner() {
           <input type="hidden" name="destination" value={destination} />
           <input type="hidden" name="numberOfDays" value={days} />
 
-
 <div className="space-y-2">
   <label className="text-sm font-medium flex items-center gap-2">
     <span className="text-primary">📍</span> Where are you going?
   </label>
-
-  <div className="relative w-full">  {/* ← wrap in relative div */}
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger
-        type="button"
-        className="w-full h-12 px-4 rounded-xl border border-border bg-background text-base text-left"
-      >
-        {destination || "e.g. Tokyo, Japan"}
-      </PopoverTrigger>
-
-      <PopoverContent
-        align="start"
-        className="w-full p-0"  
-      >
-        <Command>
-          <CommandInput placeholder="Search destination..." />
-          <CommandGroup>
-            {DESTINATIONS.map((place) => (
-              <CommandItem
-                key={place}
-                onSelect={() => {
-                  setDestination(place);
-                  setOpen(false);
-                }}
-              >
-                {place}
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </Command>
-      </PopoverContent>
-    </Popover>
-  </div>
+<SearchSelect
+  name="destination"
+  options={DESTINATIONS}
+  value={destination}
+  onChange={setDestination}
+  placeholder="e.g. Tokyo, Japan"
+  searchPlaceholder="Search destination..."
+  showSearch={true}
+/>
 </div>
 
+
           {/* Duration */}
+
 <div className="space-y-2">
   <label className="text-sm font-medium flex items-center gap-2">
     <span className="text-primary">📅</span> How many days?
   </label>
-
-  <div className="relative w-full">  {/* ← same fix */}
-    <Popover>
-      <PopoverTrigger
-        type="button"
-        className="w-full h-12 px-4 rounded-xl border border-border bg-background text-base text-left"
-      >
-        {days} day{days !== "1" && "s"}
-      </PopoverTrigger>
-
-      <PopoverContent
-        align="start"
-        className="w-full p-0"  
-      >
-        ...
-      </PopoverContent>
-    </Popover>
-  </div>
-
-  <p className="text-xs text-muted-foreground">Between 1 and 30 days</p>
+<SearchSelect
+  name="numberOfDays"
+  options={Array.from({ length: 10 }, (_, i) => String(i + 1))}
+  value={days}
+  onChange={setDays}
+  placeholder="Select days"
+  showSearch={false}
+/>
+  <p className="text-xs text-muted-foreground">Between 1 and 10 days</p>
 </div>
 
           {/* Budget */}

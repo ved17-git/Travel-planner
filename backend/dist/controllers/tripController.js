@@ -19,75 +19,79 @@ export const createTrip = async (req, res) => {
             });
             return;
         }
-        // const prompt = `
-        // You are a travel itinerary planner. Respond with ONLY valid JSON, no markdown, no extra text.
-        // Trip details:
-        // - Destination: ${destination}
-        // - Number of Days: ${numberOfDays}
-        // - Budget: ${budget}
-        // - Interests: ${interests?.join(", ") || "General"}
-        // Budget guide:
-        // - Low: budget hostels, street food, public transport
-        // - Medium: 3-star hotels, mid-range restaurants, some taxis
-        // - High: 4-5 star hotels, fine dining, private transport
-        // Return exactly this structure:
-        // {
-        //   "itinerary": [
-        //     {
-        //       "day": 1,
-        //       "title": "string",
-        //       "activities": [
-        //         { "name": "string", "location": { "lat": 0.0, "lng": 0.0 } }
-        //       ]
-        //     }
-        //   ],
-        //   "budgetEstimate": {
-        //     "flights": 0,
-        //     "accommodation": 0,
-        //     "food": 0,
-        //     "activities": 0,
-        //     "total": 0
-        //   },
-        //   "hotelSuggestions": [
-        //     { "name": "string", "type": "Budget | Mid-Range | Luxury", "location": { "lat": 0.0, "lng": 0.0 } }
-        //   ]
-        // }
-        // IMPORTANT:
-        // - Use real, accurate coordinates for every activity and hotel.
-        // - For budgetEstimate, estimate realistic costs in USD for a solo traveler for ${numberOfDays} days.
-        // - For flights, assume an average international flight cost to ${destination} if it is an international destination, or domestic flight cost if within the same country. Use a reasonable estimate, never return 0.
-        // - budgetEstimate.total must equal the sum of flights + accommodation + food + activities.
-        // - Do not use placeholder 0.0 values for coordinates.
-        // `
-        //     const response = await openrouter.chat.send({
-        //       chatRequest: {
-        //         model: process.env.OPENROUTER_MODEL,
-        //         responseFormat: { type: "json_object" },
-        //         messages: [
-        //           {
-        //             role: "user",
-        //             content: prompt + "\n\nReturn ONLY JSON. No explanation."
-        //           }
-        //         ]
-        //       }
-        //     })
-        //     // Extract text from response
-        //     const rawText = response.choices[0]?.message?.content ?? ""
-        //     // Strip accidental markdown fences
-        //     const cleaned = rawText.replace(/```json|```/g, "").trim()
-        //     const parsed = JSON.parse(cleaned)
-        //     // Save to DB
-        //     const trip = await tripModel.create({
-        //       userId: req.user.userId,
-        //       destination,
-        //       numberOfDays,
-        //       budget,
-        //       interests: interests ?? [],
-        //       itinerary: parsed.itinerary,
-        //       budgetEstimate: parsed.budgetEstimate,
-        //       hotelSuggestions: parsed.hotelSuggestions,
-        //     })
-        return res.status(201).json({ success: true, });
+        const prompt = `
+You are a travel itinerary planner. Respond with ONLY valid JSON, no markdown, no extra text.
+
+Trip details:
+- Destination: ${destination}
+- Number of Days: ${numberOfDays}
+- Budget: ${budget}
+- Interests: ${interests?.join(", ") || "General"}
+
+Budget guide:
+- Low: budget hostels, street food, public transport
+- Medium: 3-star hotels, mid-range restaurants, some taxis
+- High: 4-5 star hotels, fine dining, private transport
+
+Return exactly this structure:
+{
+  "itinerary": [
+    {
+      "day": 1,
+      "title": "string",
+      "activities": [
+        { "name": "string", "location": { "lat": 0.0, "lng": 0.0 } }
+      ]
+    }
+  ],
+  "budgetEstimate": {
+    "flights": 0,
+    "accommodation": 0,
+    "food": 0,
+    "activities": 0,
+    "total": 0
+  },
+  "hotelSuggestions": [
+    { "name": "string", "type": "Budget | Mid-Range | Luxury", "location": { "lat": 0.0, "lng": 0.0 } }
+  ]
+}
+
+IMPORTANT:
+- Use real, accurate coordinates for every activity and hotel.
+- For budgetEstimate, estimate realistic costs in USD for a solo traveler for ${numberOfDays} days.
+- For flights, assume an average international flight cost to ${destination} if it is an international destination, or domestic flight cost if within the same country. Use a reasonable estimate, never return 0.
+- budgetEstimate.total must equal the sum of flights + accommodation + food + activities.
+- Do not use placeholder 0.0 values for coordinates.
+`;
+        const response = await openrouter.chat.send({
+            chatRequest: {
+                model: process.env.OPENROUTER_MODEL,
+                responseFormat: { type: "json_object" },
+                messages: [
+                    {
+                        role: "user",
+                        content: prompt + "\n\nReturn ONLY JSON. No explanation."
+                    }
+                ]
+            }
+        });
+        // Extract text from response
+        const rawText = response.choices[0]?.message?.content ?? "";
+        // Strip accidental markdown fences
+        const cleaned = rawText.replace(/```json|```/g, "").trim();
+        const parsed = JSON.parse(cleaned);
+        // Save to DB
+        const trip = await tripModel.create({
+            userId: req.user.userId,
+            destination,
+            numberOfDays,
+            budget,
+            interests: interests ?? [],
+            itinerary: parsed.itinerary,
+            budgetEstimate: parsed.budgetEstimate,
+            hotelSuggestions: parsed.hotelSuggestions,
+        });
+        return res.status(201).json({ success: true, trip });
     }
     catch (error) {
         console.log("Create trip api error");

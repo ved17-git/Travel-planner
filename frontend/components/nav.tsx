@@ -32,7 +32,7 @@ export default function Nav() {
     toast.error(data.msg)
    }else{
     toast.success(data.msg)
-    router.push('/login')
+    router.replace('/login')
    }
 
   },[data, router])

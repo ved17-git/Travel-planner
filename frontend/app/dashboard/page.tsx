@@ -1,141 +1,36 @@
-"use client";
 import Link from "next/link";
 import Nav from "@/components/nav";
-
-const mockSummary = {
-  totalTrips: 4,
-  totalDaysPlanned: 28,
-  budgetBreakdown: { Low: 1, Medium: 2, High: 1 },
-};
-
-const mockRecent = [
-  { id: "1", destination: "Tokyo, Japan", numberOfDays: 7, budget: "Medium", interests: ["Food", "Culture"] },
-  { id: "2", destination: "Bali, Indonesia", numberOfDays: 10, budget: "Low", interests: ["Adventure"] },
-  { id: "3", destination: "Paris, France", numberOfDays: 5, budget: "High", interests: ["Culture", "Food"] },
-];
-
-const mockTopDestinations = [
-  { destination: "Tokyo", count: 2 },
-  { destination: "Bali", count: 1 },
-  { destination: "Paris", count: 1 },
-];
-
-const budgetColors: Record<string, string> = {
-  Low: "bg-green-500/20 text-green-400 border-green-500/30",
-  Medium: "bg-amber-500/20 text-amber-400 border-amber-500/30",
-  High: "bg-purple-500/20 text-purple-400 border-purple-500/30",
-};
+import DashboardPage from "@/components/dashboard-client";
+import { cookies } from "next/headers";
+import { BASEURL } from "../config";
+import { redirect } from "next/navigation";
 
 
-export default function Dashboard() {
-  const hour = new Date().getHours();
-  const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+export default async function Dashboard() {
+  
+    const cookieStore=await cookies()
+    const token=cookieStore.get('token')?.value
+
+      if (!token) {
+    redirect("/login")
+  }
+  
+     const res=await fetch(`${BASEURL}/getTrips`,{
+      method:"GET",
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":`Bearer ${token}`
+      }
+     })
+     
+     const data=await res.json()
+     if(!res.ok){
+      return "Data could not fetch"
+     }
+     const trips=data.allTripes
+  
 
   return (
-    <div className="min-h-screen bg-background">
-      <Nav />
-
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
-          <div>
-            <p className="text-sm text-muted-foreground mb-1">{greeting}</p>
-            <h1 className="text-2xl font-bold">John Doe</h1>
-          </div>
-          <Link
-            href="/planner"
-            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
-          >
-            + Plan a Trip
-          </Link>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
-          <div className="rounded-xl border border-border/60 bg-card p-5">
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-sm text-muted-foreground">Total Trips</p>
-              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center text-primary">✈</div>
-            </div>
-            <p className="text-2xl font-bold">{mockSummary.totalTrips}</p>
-          </div>
-
-          <div className="rounded-xl border border-border/60 bg-card p-5">
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-sm text-muted-foreground">Days Planned</p>
-              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center text-primary">📅</div>
-            </div>
-            <p className="text-2xl font-bold">{mockSummary.totalDaysPlanned}</p>
-          </div>
-
-          <div className="col-span-2 lg:col-span-1 rounded-xl border border-border/60 bg-card p-5">
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-sm text-muted-foreground">Budget Spread</p>
-              <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center text-primary">↗</div>
-            </div>
-            <div className="flex gap-2 flex-wrap">
-              {(["Low", "Medium", "High"] as const).map((level) => (
-                <span
-                  key={level}
-                  className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded border ${budgetColors[level]}`}
-                >
-                  {level} <span className="font-bold">{mockSummary.budgetBreakdown[level]}</span>
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Recent Trips */}
-        <div>
-          <div className="flex items-center justify-between mb-5">
-            <h2 className="text-base font-semibold">Recent Trips</h2>
-            <Link href="/trips" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              View all →
-            </Link>
-          </div>
-
-          <div className="space-y-3">
-            {mockRecent.map((trip) => (
-              <Link key={trip.id} href={`/trips/${trip.id}`}>
-                <div className="flex items-center justify-between p-4 rounded-xl border border-border/60 bg-card hover:border-primary/30 transition-all cursor-pointer group">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                      📍
-                    </div>
-                    <div>
-                      <p className="font-semibold text-sm">{trip.destination}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {trip.numberOfDays} days · {trip.interests.join(", ")}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className={`text-xs border px-2 py-0.5 rounded hidden sm:inline-flex ${budgetColors[trip.budget]}`}>
-                      {trip.budget}
-                    </span>
-                    <span className="text-muted-foreground group-hover:text-foreground text-sm transition-colors">→</span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* Top Destinations */}
-        <div className="mt-10">
-          <h2 className="text-base font-semibold mb-5">Your Destinations</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-            {mockTopDestinations.map(({ destination, count }) => (
-              <div key={destination} className="rounded-xl border border-border/60 bg-card p-4 text-center">
-                <div className="text-2xl mb-2">📍</div>
-                <p className="font-semibold text-sm truncate">{destination}</p>
-                <p className="text-xs text-muted-foreground">{count} {count === 1 ? "trip" : "trips"}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </main>
-    </div>
+     <DashboardPage data={trips}/>
   );
 }
