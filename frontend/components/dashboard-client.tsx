@@ -1,28 +1,7 @@
 "use client";
 import Link from "next/link";
 import Nav from "@/components/nav";
-import { da } from "react-day-picker/locale";
 
-const mockSummary = {
-  totalTrips: 4,
-  totalDaysPlanned: 28,
-  budgetBreakdown: { Low: 1, Medium: 2, High: 1 },
-};
-
-const mockRecent = [
-  { id: "1", destination: "Tokyo, Japan", numberOfDays: 7, budget: "Medium", interests: ["Food", "Culture"] },
-  { id: "2", destination: "Bali, Indonesia", numberOfDays: 10, budget: "Low", interests: ["Adventure"] },
-  { id: "3", destination: "Paris, France", numberOfDays: 5, budget: "High", interests: ["Culture", "Food"] },
-    { id: "4", destination: "Tokyo, Japan", numberOfDays: 7, budget: "Medium", interests: ["Food", "Culture"] },
-  { id: "5", destination: "Bali, Indonesia", numberOfDays: 10, budget: "Low", interests: ["Adventure"] },
-  { id: "6", destination: "Paris, France", numberOfDays: 5, budget: "High", interests: ["Culture", "Food"] },
-];
-
-const mockTopDestinations = [
-  { destination: "Tokyo", count: 2 },
-  { destination: "Bali", count: 1 },
-  { destination: "Paris", count: 1 },
-];
 
 const budgetColors: Record<string, string> = {
   Low: "bg-green-500/20 text-green-400 border-green-500/30",
@@ -40,8 +19,16 @@ interface Trip {
   count?:number
 }
 
+interface User{
+    id: string,
+  username: string,
+  firstName: string,
+  lastName: string,
+  email: string
+}
 
-export default function DashboardPage({data}:{data:Trip[]}) {
+
+export default function DashboardPage({data, user}:{data:Trip[], user:User}) {
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
 
@@ -60,7 +47,7 @@ export default function DashboardPage({data}:{data:Trip[]}) {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
           <div>
             <p className="text-sm text-muted-foreground mb-1">{greeting}</p>
-            <h1 className="text-2xl font-bold">John Doe</h1>
+            <h1 className="text-2xl font-bold">{user.firstName} {user.lastName}</h1>
           </div>
           <Link
             href="/planner"
@@ -116,29 +103,43 @@ export default function DashboardPage({data}:{data:Trip[]}) {
           </div>
 
           <div className="space-y-3">
-            {data.slice(0,3).map((trip) => (
-              <Link key={trip._id} href={`/trips/${trip._id}`}>
-                <div className="flex items-center justify-between p-4 rounded-xl border border-border/60 bg-card hover:border-primary/30 transition-all cursor-pointer group">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                      📍
-                    </div>
-                    <div>
-                      <p className="font-semibold text-sm">{trip.destination}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {trip.numberOfDays} days · {trip.interests.join(", ")}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className={`text-xs border px-2 py-0.5 rounded hidden sm:inline-flex ${budgetColors[trip.budget]}`}>
-                      {trip.budget}
-                    </span>
-                    <span className="text-muted-foreground group-hover:text-foreground text-sm transition-colors">→</span>
-                  </div>
-                </div>
-              </Link>
-            ))}
+{data.length === 0 ? (
+  <div className="p-6 rounded-xl border border-dashed border-border text-center">
+    <p className="text-sm text-muted-foreground">
+      No trips yet.
+    </p>
+    <Link
+      href="/planner"
+      className="inline-block mt-3 text-sm text-primary hover:underline"
+    >
+      Plan your first trip →
+    </Link>
+  </div>
+) : (
+  data.slice(0, 3).map((trip) => (
+    <Link key={trip._id} href={`/trips/${trip._id}`}>
+      <div className="flex items-center justify-between p-4 rounded-xl border border-border/60 bg-card hover:border-primary/30 transition-all cursor-pointer group">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+            📍
+          </div>
+          <div>
+            <p className="font-semibold text-sm">{trip.destination}</p>
+            <p className="text-xs text-muted-foreground">
+              {trip.numberOfDays} days · {trip.interests.join(", ")}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className={`text-xs border px-2 py-0.5 rounded hidden sm:inline-flex ${budgetColors[trip.budget]}`}>
+            {trip.budget}
+          </span>
+          <span className="text-muted-foreground group-hover:text-foreground text-sm transition-colors">→</span>
+        </div>
+      </div>
+    </Link>
+  ))
+)}
           </div>
         </div>
 
@@ -146,13 +147,26 @@ export default function DashboardPage({data}:{data:Trip[]}) {
         <div className="mt-10">
           <h2 className="text-base font-semibold mb-5">Your Destinations</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-            {data.slice(0,10).map(({ destination, count }) => (
-              <div key={destination} className="rounded-xl border border-border/60 bg-card p-4 text-center">
-                <div className="text-2xl mb-2">📍</div>
-                <p className="font-semibold text-sm truncate">{destination}</p>
-                <p className="text-xs text-muted-foreground">{count} {count === 1 ? "trip" : "trips"}</p>
-              </div>
-            ))}
+{data.length === 0 ? (
+  <div className="col-span-full p-6 rounded-xl border border-dashed border-border text-center">
+    <p className="text-sm text-muted-foreground">
+      No destinations yet.
+    </p>
+  </div>
+) : (
+  data.slice(0, 10).map(({ destination, count }) => (
+    <div
+      key={destination}
+      className="rounded-xl border border-border/60 bg-card p-4 text-center"
+    >
+      <div className="text-2xl mb-2">📍</div>
+      <p className="font-semibold text-sm truncate">{destination}</p>
+      <p className="text-xs text-muted-foreground">
+        {count} {count === 1 ? "trip" : "trips"}
+      </p>
+    </div>
+  ))
+)}
           </div>
         </div>
       </main>

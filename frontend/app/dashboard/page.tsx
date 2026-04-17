@@ -28,9 +28,11 @@ export default async function Dashboard() {
       return "Data could not fetch"
      }
      const trips=data.allTripes
-  
+    const user=data.user
+    console.log(user);
+    
 
   return (
-     <DashboardPage data={trips}/>
+     <DashboardPage data={trips} user={user}/>
   );
 }

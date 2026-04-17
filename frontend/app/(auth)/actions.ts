@@ -8,7 +8,21 @@ export async function registerUser(previousState: unknown, formData: FormData){
     const lastName=formData.get("lastName")
     const username=formData.get("username")
     const email=formData.get("email")
-    const password=formData.get("password")
+    const password=formData.get("password") as string
+    
+    if(username===email){
+       return {
+            status:"error",
+            msg:"Username and email cannot be same"
+        }
+    }
+
+    if(password.length<=4){
+       return {
+            status:"error",
+            msg:"Password should be greater than 4 characters"
+        }
+    }
 
     const user={
         firstName,

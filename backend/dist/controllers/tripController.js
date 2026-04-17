@@ -1,4 +1,4 @@
-import { tripModel } from "../db.js";
+import { tripModel, userModel } from "../db.js";
 import { OpenRouter } from "@openrouter/sdk";
 import 'dotenv/config';
 import { isValidPrompt } from "../utils.js";
@@ -108,11 +108,24 @@ export const getAllTrips = async (req, res) => {
                 msg: "Unauthorized"
             });
         }
+        const user = await userModel.findById(req.user.userId);
+        if (!user) {
+            return res.status(401).json({
+                msg: "User not found"
+            });
+        }
         const allTripes = await tripModel.find({
             userId: req.user.userId
         }).sort({ createdAt: -1 });
         res.status(200).json({
             msg: "all trips",
+            user: {
+                id: user._id,
+                username: user.username,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email
+            },
             allTripes
         });
     }
