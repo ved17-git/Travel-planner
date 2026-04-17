@@ -11,6 +11,7 @@ const PORT=process.env.PORT
 app.use(express.json())
 app.use(cors())
 
+
 app.use('/', userRouter)
 app.use('/', tripRouter)
 
@@ -34,9 +35,12 @@ app.get('/',(req,res)=>{
         msg:"test endpoint"
     })
 })
- module.exports =app
 
 app.listen(PORT,()=>{
     console.log(`Listening on ${PORT}`);
 })
+
+export default app;
+
+
 

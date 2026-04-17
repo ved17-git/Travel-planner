@@ -8,6 +8,7 @@ const app = express();
 const PORT = process.env.PORT;
 app.use(express.json());
 app.use(cors());
+console.log(process.env.MONGO_DB_URL);
 app.use('/', userRouter);
 app.use('/', tripRouter);
 async function connectDB() {
@@ -28,7 +29,7 @@ app.get('/', (req, res) => {
         msg: "test endpoint"
     });
 });
-// module.exports =app
+module.exports = app;
 app.listen(PORT, () => {
     console.log(`Listening on ${PORT}`);
 });
