@@ -54,7 +54,7 @@ export default function Nav() {
             </button>
 
             <Link href="/dashboard" className="text-xl font-bold">
-              Trao<span className="text-primary">.</span>
+              PlanPilot<span className="text-primary">.</span>
             </Link>
 
             {/* Desktop nav */}
@@ -116,7 +116,7 @@ export default function Nav() {
             {/* Drawer header */}
             <div className="flex items-center justify-between mb-8">
               <span className="text-xl font-bold">
-                Trao<span className="text-primary">.</span>
+                PlanPilot<span className="text-primary">.</span>
               </span>
               <button
                 onClick={() => setDrawerOpen(false)}

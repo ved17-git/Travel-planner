@@ -24,7 +24,6 @@ export default async  function Trips() {
     return "Data could not fetch"
    }
 
-   console.log(data);
    
 
 

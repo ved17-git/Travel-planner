@@ -29,7 +29,6 @@ export default async function Dashboard() {
      }
      const trips=data.allTripes
     const user=data.user
-    console.log(user);
     
 
   return (

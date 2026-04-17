@@ -26,7 +26,6 @@ const interestsArray = interest
     };
     
 
-    console.log(trip);
 
 if (!destination || !numberOfDays || !budget || interestsArray.length === 0) {
   return {
@@ -55,8 +54,7 @@ if (!destination || !numberOfDays || !budget || interestsArray.length === 0) {
             };
     }
     const data=await res.json()
-    console.log(res);
-    console.log(data);
+
 
     if(!res.ok){
         return {

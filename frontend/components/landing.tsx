@@ -5,7 +5,7 @@ export default function Landing() {
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-xl">
         <div className="mx-auto max-w-7xl px-6 flex h-16 items-center justify-between">
-          <span className="text-xl font-bold">Trao<span className="text-primary">.</span></span>
+          <span className="text-xl font-bold">PlanPilot<span className="text-primary">.</span></span>
           <div className="flex items-center gap-3">
             <Link href="/login" className="text-sm text-muted-foreground hover:text-foreground px-3 py-1.5">Sign In</Link>
             <Link href="/register" className="text-sm font-semibold bg-primary text-primary-foreground px-4 py-2 rounded-lg">Get Started</Link>
@@ -25,7 +25,7 @@ export default function Landing() {
             <span className="text-primary">planned in seconds.</span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10">
-            Tell us your destination, interests, and budget. Trao generates a complete, personalized itinerary with hotel suggestions and cost estimates — instantly.
+            Tell us your destination, interests, and budget. PlanPilot generates a complete, personalized itinerary with hotel suggestions and cost estimates — instantly.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link href="/register" className="h-12 px-8 font-semibold bg-primary text-primary-foreground rounded-xl flex items-center gap-2 hover:opacity-90 transition-opacity">
@@ -68,7 +68,7 @@ export default function Landing() {
         <div className="mx-auto max-w-5xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">Everything you need to plan the perfect trip</h2>
-            <p className="text-muted-foreground text-lg">From first idea to packed bags — Trao handles the heavy lifting.</p>
+            <p className="text-muted-foreground text-lg">From first idea to packed bags — PlanPilot handles the heavy lifting.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {[
@@ -129,7 +129,7 @@ export default function Landing() {
       <section className="py-24 px-4 border-t border-border/40 text-center">
         <div className="mx-auto max-w-2xl">
           <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">Ready to plan your next adventure?</h2>
-          <p className="text-muted-foreground text-lg mb-8">Join thousands of travelers who plan smarter with Trao.</p>
+          <p className="text-muted-foreground text-lg mb-8">Join thousands of travelers who plan smarter with PlanPilot.</p>
           <Link href="/register" className="inline-flex h-12 px-10 font-semibold bg-primary text-primary-foreground rounded-xl items-center gap-2 hover:opacity-90 transition-opacity">
             Start for Free →
           </Link>
@@ -138,7 +138,7 @@ export default function Landing() {
 
       <footer className="border-t border-border/40 py-8 px-4">
         <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span className="text-sm font-semibold">Trao<span className="text-primary">.</span></span>
+          <span className="text-sm font-semibold">PlanPilot<span className="text-primary">.</span></span>
           <p className="text-xs text-muted-foreground">AI-powered travel planning. Plan smarter, travel better.</p>
         </div>
       </footer>

@@ -19,8 +19,7 @@ export default async function Settings() {
     }
   })
   const data=await res.json()
-  console.log(data);
-  console.log(res);
+
   
     // if (!res.ok) {
     //   return (

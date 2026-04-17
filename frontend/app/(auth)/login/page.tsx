@@ -27,7 +27,7 @@ export default function Login() {
     <div className="min-h-screen bg-background flex">
       {/* Left panel */}
       <div className="hidden lg:flex lg:w-1/2 bg-card/50 border-r border-border/40 flex-col justify-between p-12">
-        <Link href="/" className="text-xl font-bold">Trao<span className="text-primary">.</span></Link>
+        <Link href="/" className="text-xl font-bold">PlanPilot<span className="text-primary">.</span></Link>
         <div className="space-y-6">
           <div className="w-12 h-1 bg-primary rounded-full" />
           <h2 className="text-3xl font-bold leading-tight">Your trips,<br />beautifully planned.</h2>
@@ -48,7 +48,7 @@ export default function Login() {
       {/* Right panel */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
         <div className="w-full max-w-sm">
-          <Link href="/" className="lg:hidden text-xl font-bold">Trao<span className="text-primary">.</span></Link>
+          <Link href="/" className="lg:hidden text-xl font-bold">PlanPilot<span className="text-primary">.</span></Link>
           <h1 className="text-2xl font-bold mt-6 mb-1">Welcome back</h1>
           <p className="text-sm text-muted-foreground mb-8">Sign in to your account</p>
 
