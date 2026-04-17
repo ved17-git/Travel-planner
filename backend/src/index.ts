@@ -15,12 +15,21 @@ app.use(cors())
 app.use('/', userRouter)
 app.use('/', tripRouter)
 
+
+let isConnected = false;
 async function connectDB(){
+
+  if (isConnected) {
+    console.log("Using existing database connection");
+    return;
+  }
   try {
     const connect=await  mongoose.connect(process.env.MONGO_DB_URL as string)
-    if(connect){
-        console.log("connected to db");
+if (connect) {
+      isConnected = connect.connection.readyState === 1;
+      console.log("New database connection established");
     }
+
   } catch (error) {
     console.log("db connect err");
     console.log(error); 
