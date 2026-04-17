@@ -115,7 +115,7 @@ export const logout=(req:Request,res:Response)=>{
    
     try {
         if(!req.user){
-            res.status(200).json({
+            res.status(400).json({
                 msg:"User Not logged In",
             })
             return
@@ -127,6 +127,47 @@ export const logout=(req:Request,res:Response)=>{
 
     } catch (error) {
         console.log("logout api err");
+        console.log(error);
+        
+    }
+
+}
+
+export const profile =async (req:Request,res:Response)=>{
+  
+    try {
+        
+        const user=req.user
+        if(!user){
+            res.status(400).json({
+                msg:"User not found"
+            })
+            return
+        }
+        const id=user.userId
+
+        const userProfile=await userModel.findById(id)
+        if(userProfile){
+            res.status(200).json({
+                msg:"User profile",
+                userProfile:{
+                    id:userProfile._id,
+                    username:userProfile.username,
+                    firstName:userProfile.firstName,
+                    lastName:userProfile.lastName,
+                    email:userProfile.email
+                }
+            })
+            return
+        }else{
+            res.status(400).json({
+                msg:"User not found"
+            })
+            return
+        }
+
+    } catch (error) {
+        console.log("profile api error");
         console.log(error);
         
     }

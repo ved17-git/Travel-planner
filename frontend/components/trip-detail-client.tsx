@@ -152,7 +152,7 @@ const visibleMapActivities =
             </div>
 
             {/* Action buttons */}
-            <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="flex items-center gap-2 shrink-0">
               <button
                 onClick={() => setEditOpen(true)}
                 className="flex items-center gap-2 border border-border px-4 py-2 rounded-lg text-sm font-medium hover:bg-muted transition-colors"
@@ -180,8 +180,8 @@ const visibleMapActivities =
                 onClick={() => setActiveDay(activeDay === day.day ? null : day.day)}
               >
                 <div className="flex items-center gap-4 p-4">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs font-bold text-primary">D{day.day}</span>
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                    <span className="text-xs font-bold text-primary">Day {day.day}</span>
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-sm">{day.title}</p>
@@ -196,7 +196,7 @@ const visibleMapActivities =
                   <div className="px-4 pb-4 space-y-2 border-t border-border/40 pt-3">
                     {day.activities.map((act, idx) => (
                       <div key={idx} className="flex items-start gap-3">
-                        <div className="w-5 h-5 mt-0.5 rounded-full border-2 border-primary/30 flex items-center justify-center flex-shrink-0">
+                        <div className="w-5 h-5 mt-0.5 rounded-full border-2 border-primary/30 flex items-center justify-center shrink-0">
                           <div className="w-1.5 h-1.5 rounded-full bg-primary" />
                         </div>
                         <p className="text-sm">{act.name}</p>
@@ -225,10 +225,10 @@ const visibleMapActivities =
                   ? `Showing Day ${activeDay} — click another day or "Show all days" to reset`
                   : "Click a day above to filter the map"}
               </p>
-              <TripMap
-                activities={visibleMapActivities}
-                destination={trip.destination}
-              />
+                <TripMap
+                  activities={visibleMapActivities}
+                  destination={trip.destination}
+                />
             </div>
           </div>
 

@@ -1,14 +1,14 @@
 "use client";
-import { useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
-import L from "leaflet";
+import dynamic from "next/dynamic";
 
-// Fix default marker icons broken by webpack
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+// Dynamic import to prevent SSR issues with Leaflet
+const LeafletMap = dynamic(() => import("./map-view"), { 
+  ssr: false,
+  loading: () => (
+    <div className="h-full w-full bg-muted animate-pulse flex items-center justify-center text-xs text-muted-foreground">
+      Loading Map...
+    </div>
+  )
 });
 
 interface Activity {
@@ -17,22 +17,13 @@ interface Activity {
   longitude: number;
 }
 
+// Update this interface to match your TripDetail call
 interface Props {
   activities: Activity[];
-  destination: string;
+  destination?: string; // Adding destination here fixes the TS error
 }
 
-function FitBounds({ activities }: { activities: Activity[] }) {
-  const map = useMap();
-  useEffect(() => {
-    if (activities.length === 0) return;
-    const bounds = L.latLngBounds(activities.map((a) => [a.latitude, a.longitude]));
-    map.fitBounds(bounds, { padding: [40, 40] });
-  }, [activities, map]);
-  return null;
-}
-
-export default function TripMap({ activities, destination }: Props) {
+export default function TripMap({ activities }: Props) {
   if (activities.length === 0) {
     return (
       <div className="h-64 rounded-xl border border-border/60 bg-card flex items-center justify-center text-muted-foreground text-sm">
@@ -41,24 +32,9 @@ export default function TripMap({ activities, destination }: Props) {
     );
   }
 
-  const center: [number, number] = [activities[0].latitude, activities[0].longitude];
-
   return (
-    <div className="h-72 rounded-xl overflow-hidden border border-border/60">
-      <MapContainer center={center} zoom={13} className="h-full w-full" zoomControl={true}>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <FitBounds activities={activities} />
-        {activities.map((activity, idx) => (
-          <Marker key={idx} position={[activity.latitude, activity.longitude]}>
-            <Popup>
-              <div className="text-sm font-medium">{activity.name}</div>
-            </Popup>
-          </Marker>
-        ))}
-      </MapContainer>
+    <div className="h-72 rounded-xl overflow-hidden border border-border/60 relative z-0">
+      <LeafletMap activities={activities} />
     </div>
   );
 }

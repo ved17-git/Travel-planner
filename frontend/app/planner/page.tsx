@@ -1,15 +1,33 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useActionState } from "react";
 import { generateTrip } from "./action";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import Nav from "@/components/nav";
-
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Command, CommandGroup, CommandItem, CommandInput } from "@/components/ui/command";
+import Example from "@/components/dropdown";
 
 const INTERESTS = ["Food", "Culture", "Adventure", "Shopping", "Nature", "Nightlife", "History", "Art"] as const;
+
+const DESTINATIONS = [
+  "Tokyo, Japan",
+  "Bali, Indonesia",
+  "Paris, France",
+  "New York, USA",
+  "Dubai, UAE",
+  "London, UK",
+  "Rome, Italy",
+  "Bangkok, Thailand",
+  "Singapore",
+  "Goa, India",
+  "Kashmir, India",
+];
 
 const BUDGET_OPTIONS = [
   { value: "Low", label: "Low", desc: "Hostels, street food, free attractions", active: "border-green-500/30 bg-green-500/5 text-green-400" },
@@ -18,11 +36,17 @@ const BUDGET_OPTIONS = [
 ] as const;
 
 export default function Planner() {
-  const router = useRouter();
+
   const [budget, setBudget] = useState<"Low" | "Medium" | "High">("Low");
   const [interests, setInterests] = useState<string[]>([]);
 
+  const [destination, setDestination] = useState("");
+  const [days, setDays] = useState("1");
+
+
+
   const [data, action, loading]=useActionState(generateTrip, null)
+  const [open, setOpen] = useState(false);
 
   useEffect(()=>{
    if(!data) return
@@ -39,7 +63,10 @@ export default function Planner() {
     setInterests((prev) => prev.includes(i) ? prev.filter((x) => x !== i) : [...prev, i]);
 
 
-  return (
+  return (<> 
+    
+    <Example/>
+
     <div className="min-h-screen bg-background">
 
       <Nav/>
@@ -56,32 +83,75 @@ export default function Planner() {
 
         <form action={action} className="space-y-8">
           {/* Destination */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium flex items-center gap-2">
-              <span className="text-primary">📍</span> Where are you going?
-            </label>
-            <input
-              placeholder="e.g. Tokyo, Japan"
-              name="destination"
-              className="w-full h-12 px-4 rounded-xl border border-border bg-background text-base focus:outline-none focus:ring-2 focus:ring-ring"
-            />
-          </div>
+          <input type="hidden" name="destination" value={destination} />
+          <input type="hidden" name="numberOfDays" value={days} />
+
+
+<div className="space-y-2">
+  <label className="text-sm font-medium flex items-center gap-2">
+    <span className="text-primary">📍</span> Where are you going?
+  </label>
+
+  <div className="relative w-full">  {/* ← wrap in relative div */}
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger
+        type="button"
+        className="w-full h-12 px-4 rounded-xl border border-border bg-background text-base text-left"
+      >
+        {destination || "e.g. Tokyo, Japan"}
+      </PopoverTrigger>
+
+      <PopoverContent
+        align="start"
+        className="w-full p-0"  
+      >
+        <Command>
+          <CommandInput placeholder="Search destination..." />
+          <CommandGroup>
+            {DESTINATIONS.map((place) => (
+              <CommandItem
+                key={place}
+                onSelect={() => {
+                  setDestination(place);
+                  setOpen(false);
+                }}
+              >
+                {place}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  </div>
+</div>
 
           {/* Duration */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium flex items-center gap-2">
-              <span className="text-primary">📅</span> How many days?
-            </label>
-            <input
-              type="number"
-              min={1}
-              max={30}
-              placeholder="e.g. 7"
-              name="numberOfDays"
-              className="w-full h-12 px-4 rounded-xl border border-border bg-background text-base focus:outline-none focus:ring-2 focus:ring-ring"
-            />
-            <p className="text-xs text-muted-foreground">Between 1 and 30 days</p>
-          </div>
+<div className="space-y-2">
+  <label className="text-sm font-medium flex items-center gap-2">
+    <span className="text-primary">📅</span> How many days?
+  </label>
+
+  <div className="relative w-full">  {/* ← same fix */}
+    <Popover>
+      <PopoverTrigger
+        type="button"
+        className="w-full h-12 px-4 rounded-xl border border-border bg-background text-base text-left"
+      >
+        {days} day{days !== "1" && "s"}
+      </PopoverTrigger>
+
+      <PopoverContent
+        align="start"
+        className="w-full p-0"  
+      >
+        ...
+      </PopoverContent>
+    </Popover>
+  </div>
+
+  <p className="text-xs text-muted-foreground">Between 1 and 30 days</p>
+</div>
 
           {/* Budget */}
           <div className="space-y-3">
@@ -158,5 +228,5 @@ export default function Planner() {
         </form>
       </main>
     </div>
-  );
+  </>);
 }

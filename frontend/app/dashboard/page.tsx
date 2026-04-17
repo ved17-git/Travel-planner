@@ -26,48 +26,6 @@ const budgetColors: Record<string, string> = {
   High: "bg-purple-500/20 text-purple-400 border-purple-500/30",
 };
 
-// function Nav({ active }: { active?: string }) {
-//   return (
-//     <header className="sticky top-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-xl">
-//       <div className="mx-auto max-w-7xl px-6 flex h-16 items-center justify-between">
-//         <div className="flex items-center gap-8">
-//           <Link href="/dashboard" className="text-xl font-bold">
-//             Trao<span className="text-primary">.</span>
-//           </Link>
-//           <nav className="hidden md:flex items-center gap-1">
-//             {[
-//               { href: "/dashboard", label: "Dashboard" },
-//               { href: "/trips", label: "My Trips" },
-//             ].map(({ href, label }) => (
-//               <Link
-//                 key={href}
-//                 href={href}
-//                 className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
-//                   active === href
-//                     ? "text-foreground font-medium bg-muted"
-//                     : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-//                 }`}
-//               >
-//                 {label}
-//               </Link>
-//             ))}
-//           </nav>
-//         </div>
-//         <div className="flex items-center gap-3">
-//           <Link
-//             href="/planner"
-//             className="hidden sm:flex items-center gap-1.5 text-sm font-semibold bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:opacity-90 transition-opacity"
-//           >
-//             + Plan a Trip
-//           </Link>
-//           <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-xs font-bold text-primary-foreground">
-//             JD
-//           </div>
-//         </div>
-//       </div>
-//     </header>
-//   );
-// }
 
 export default function Dashboard() {
   const hour = new Date().getHours();

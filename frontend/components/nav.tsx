@@ -7,6 +7,13 @@ import { useActionState } from "react";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import {
+  Avatar,
+  AvatarBadge,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+
 const navLinks = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/trips", label: "My Trips" },
@@ -86,10 +93,12 @@ export default function Nav() {
 </button>
             </form>
             <Link href="/settings">
-              <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-xs font-bold text-primary-foreground cursor-pointer hover:opacity-90 transition-opacity">
-                JD
-              </div>
-            </Link>
+          <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+              <AvatarFallback>CN</AvatarFallback>
+              <AvatarBadge className="bg-green-600 dark:bg-green-800" />
+            </Avatar>
+          </Link>
           </div>
         </div>
       </header>
