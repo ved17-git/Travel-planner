@@ -1,8 +1,7 @@
 import type { Request, Response } from "express"
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
-import { userModel } from "../db.js"
- 
+import { userModel } from "../db/userSchema.js" 
 
 
 export const register=async (req:Request,res:Response)=>{

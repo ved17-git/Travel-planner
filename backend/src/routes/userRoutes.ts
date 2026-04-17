@@ -1,11 +1,11 @@
 import express from 'express'
 import { signIn, register, logout, profile } from '../controllers/userController.js'
-import { middleware } from '../middleware.js'
+import { authMiddleware } from '../middleware.js'
 
-export const router=express.Router()
+export const userRouter=express.Router()
 
-router.post('/signin', signIn)
-router.post('/register', register)
-router.post('/logout', middleware, logout)
+userRouter.post('/signin', signIn)
+userRouter.post('/register', register)
+userRouter.post('/logout', authMiddleware, logout)
 
-router.get('/me', middleware, profile)
+userRouter.get('/me', authMiddleware, profile)

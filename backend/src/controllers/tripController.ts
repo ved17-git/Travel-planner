@@ -1,8 +1,9 @@
 import type { Request, Response } from "express"
-import { tripModel, userModel } from "../db.js"
 import { OpenRouter } from "@openrouter/sdk";
 import 'dotenv/config'
 import { isValidPrompt } from "../utils.js";
+import { tripModel } from "../db/tripSchema.js";
+import { userModel } from "../db/userSchema.js";
 
 const openrouter = new OpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY

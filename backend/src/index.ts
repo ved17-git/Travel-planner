@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
-import { router } from './routes/userRoutes.js'
+import { userRouter } from './routes/userRoutes.js'
 import { tripRouter } from './routes/tripRoutes.js'
 import 'dotenv/config'
 
@@ -11,7 +11,7 @@ const PORT=process.env.PORT
 app.use(express.json())
 app.use(cors())
 
-app.use('/', router)
+app.use('/', userRouter)
 app.use('/', tripRouter)
 
 async function connectDB(){
