@@ -106,69 +106,59 @@ Rate limiting is implemented at the backend specifically for routes that trigger
 
 ### 1. Clone Repository
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/ved17-git/Travel-planner
 cd <repo-name>
 
-## 🚀 Setup Instructions
+## Setup Instructions
 
 ### 1. Clone Repository
 ```bash
-git clone <your-repo-url>
-cd <repo-name>
-2. Backend Setup
-Bash
+git clone https://github.com/ved17-git/Travel-planner
+### 2. Backend Setup
 cd backend
 npm install
 npm run dev
-3. Frontend Setup
-Bash
+### 3. Frontend Setup
 cd frontend
 npm install
 npm run dev
-4. Environment Variables
-Create a .env file in both the backend and frontend directories with the following variables:
+### 4. Environment Variables
 
-Backend (backend/.env)
-
-Code snippet
+##Create a .env file in both the backend and frontend directories with the following variables:
+### backend/.env
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 OPENROUTER_API_KEY=your_openrouter_api_key
 OPENROUTER_MODEL=openai/gpt-4o-mini
-Frontend (frontend/.env.local)
 
-Code snippet
-NEXT_PUBLIC_API_URL=http://localhost:5000 # Or your backend port
-Deployment
-Frontend: Deployed on Vercel
+## Deployment
 
-Backend: Deployed Node.js server on Vercel
+- Frontend: Deployed on Vercel  
+- Backend: Node.js server deployed on Vercel  
 
-Note: Environment variables are managed securely via platform dashboards.
+---
 
-- Design Trade-offs
-Used a lightweight model (gpt-4o-mini) instead of larger models to balance cost vs. performance.
+## Design Trade-offs
 
-Added rate limiting to control operational costs instead of allowing unrestricted AI usage.
+- Used a lightweight model (`gpt-4o-mini`) instead of larger models to balance cost vs performance  
+- Added rate limiting to control operational costs instead of allowing unrestricted AI usage  
+- Avoided over-engineering (no microservices) to maintain system simplicity  
+- Accepted slight variability in AI output in exchange for faster response times  
 
-Avoided over-engineering (no microservices) to maintain system simplicity.
+---
 
-Accepted slight variability in AI output in exchange for faster response times.
+## Known Limitations
 
-- Known Limitations
-AI output may not always be perfectly structured.
+- AI output may not always be perfectly structured  
+- Budget estimation is approximate  
+- No real-time collaboration between users  
+- Map accuracy depends on extracted location data  
 
-Budget estimation is approximate.
+---
 
-No real-time collaboration between users.
+## Future Improvements
 
-Map accuracy depends on extracted location data.
-
-- Future Improvements
-Save and share itineraries via public links.
-
-Real-time collaboration for group trips.
-
-Improved geocoding for enhanced map accuracy.
-
-Integration with real travel APIs for live pricing (flights/hotels).
+- Save and share itineraries via public links  
+- Real-time collaboration for group trips  
+- Improved geocoding for enhanced map accuracy  
+- Integration with real travel APIs for live pricing (flights and hotels)  
