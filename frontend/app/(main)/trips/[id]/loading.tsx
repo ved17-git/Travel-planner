@@ -57,7 +57,7 @@ export default function Loading() {
             <div className="mt-6">
               <Skeleton className="h-5 w-32 mb-2" />
               <Skeleton className="h-3 w-60 mb-3" />
-              <Skeleton className="h-[250px] w-full rounded-xl" />
+              <Skeleton className="h-62.5 w-full rounded-xl" />
             </div>
 
           </div>

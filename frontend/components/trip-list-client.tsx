@@ -1,7 +1,6 @@
 "use client";
 import { startTransition, useState } from "react";
 import Link from "next/link";
-import Nav from "./nav";
 import { deleteTrip } from "@/app/(main)/trips/action";
 import { useEffect } from "react";
 import { useActionState } from "react";

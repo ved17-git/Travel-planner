@@ -3,7 +3,6 @@ import { useState } from "react";
 import Link from "next/link";
 import EditTripModal from "@/components/edit-trip-modal";
 import dynamic from "next/dynamic";
-import Nav from "./nav";
 
 const TripMap = dynamic(() => import("@/components/trip-map"), { ssr: false });
 

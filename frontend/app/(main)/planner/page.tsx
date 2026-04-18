@@ -4,7 +4,6 @@ import { useActionState } from "react";
 import { generateTrip } from "./action";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import Nav from "@/components/nav";
 import { DESTINATIONS } from "../../destinations";
 
 import SearchSelect from "@/components/dropdown";

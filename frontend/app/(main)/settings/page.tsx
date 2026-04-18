@@ -1,4 +1,3 @@
-import Nav from "@/components/nav";
 import { cookies } from "next/headers";
 import { BASEURL } from "../../config";
 import { redirect } from "next/navigation";
