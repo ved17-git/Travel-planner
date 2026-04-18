@@ -1,6 +1,6 @@
 "use server"
 import TripsList from "@/components/trip-list-client";
-import { BASEURL } from "../config";
+import { BASEURL } from "../../config";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 

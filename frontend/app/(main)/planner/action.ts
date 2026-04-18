@@ -1,5 +1,5 @@
 "use server"
-import { BASEURL } from "../config"
+import { BASEURL } from "../../config"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 export async function generateTrip(previousState:unknown, formData:FormData) {

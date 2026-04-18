@@ -1,6 +1,6 @@
 import DashboardPage from "@/components/dashboard-client";
 import { cookies } from "next/headers";
-import { BASEURL } from "../config";
+import { BASEURL } from "../../config";
 import { redirect } from "next/navigation";
 
 

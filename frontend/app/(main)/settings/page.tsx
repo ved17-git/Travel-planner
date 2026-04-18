@@ -1,6 +1,6 @@
 import Nav from "@/components/nav";
 import { cookies } from "next/headers";
-import { BASEURL } from "../config";
+import { BASEURL } from "../../config";
 import { redirect } from "next/navigation";
 
 export default async function Settings() {
@@ -34,7 +34,6 @@ export default async function Settings() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Nav />
 
       <main className="mx-auto max-w-2xl px-4 sm:px-6 py-12">
         {/* Header */}

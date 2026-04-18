@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useActionState } from "react";
-import { UpdateTrip } from "@/app/trips/action";
+import { UpdateTrip } from "@/app/(main)/trips/action";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import SearchSelect from "./dropdown";

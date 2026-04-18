@@ -1,7 +1,7 @@
 "use server"
 
 import { cookies } from "next/headers";
-import { BASEURL } from "../config";
+import { BASEURL } from "../../config";
 
 export async function UpdateTrip(previousState:unknown, formData:FormData) {
 

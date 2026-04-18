@@ -2,7 +2,7 @@
 import { startTransition, useState } from "react";
 import Link from "next/link";
 import Nav from "./nav";
-import { deleteTrip } from "@/app/trips/action";
+import { deleteTrip } from "@/app/(main)/trips/action";
 import { useEffect } from "react";
 import { useActionState } from "react";
 import { toast } from "sonner";
@@ -53,7 +53,6 @@ export default function TripsList({data}:{data:Trip[]}) {
 
   return (
     <div className="min-h-screen bg-background">
-      <Nav/>
 
       <main className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10">
         {/* Header */}

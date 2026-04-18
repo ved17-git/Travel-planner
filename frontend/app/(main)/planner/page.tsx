@@ -5,7 +5,7 @@ import { generateTrip } from "./action";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import Nav from "@/components/nav";
-import { DESTINATIONS } from "../destinations";
+import { DESTINATIONS } from "../../destinations";
 
 import SearchSelect from "@/components/dropdown";
 
@@ -49,8 +49,6 @@ export default function Planner() {
     {/* <Example/> */}
 
     <div className="min-h-screen bg-background">
-
-      <Nav/>
 
       <main className="mx-auto max-w-2xl px-4 sm:px-6 py-12">
         <div className="mb-10">
