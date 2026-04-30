@@ -128,6 +128,7 @@ export const logout=(req:Request,res:Response)=>{
     } catch (error) {
         console.log("logout api err");
         console.log(error);
+        return
         
     }
 
@@ -169,6 +170,7 @@ export const profile =async (req:Request,res:Response)=>{
     } catch (error) {
         console.log("profile api error");
         console.log(error);
+        return
         
     }
 
