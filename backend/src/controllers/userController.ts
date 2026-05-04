@@ -105,9 +105,10 @@ export const signIn=async (req:Request,res:Response)=>{
         }
 
    } catch (error) {
-        console.log("signIn api err");
-        console.log(error);
-        return 
+        res.status(400).json({
+                msg:"sign in api error"
+            })
+            return
     }
 }
 
