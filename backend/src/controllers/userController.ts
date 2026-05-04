@@ -50,8 +50,12 @@ export const register=async (req:Request,res:Response)=>{
         }
 
    } catch (error) {
-        console.log("signIn api err");
+        console.log("Register api err");
         console.log(error);
+                res.status(400).json({
+                msg:"register  api error"
+            })
+        return
     }
 
 }
@@ -105,10 +109,12 @@ export const signIn=async (req:Request,res:Response)=>{
         }
 
    } catch (error) {
+        console.log("signIn api err");
+        console.log(error);
         res.status(400).json({
                 msg:"sign in api error"
             })
-            return
+        return
     }
 }
 
@@ -129,6 +135,9 @@ export const logout=(req:Request,res:Response)=>{
     } catch (error) {
         console.log("logout api err");
         console.log(error);
+        res.status(400).json({
+                msg:"logout in api error"
+            })
         return
         
     }
@@ -171,6 +180,9 @@ export const profile =async (req:Request,res:Response)=>{
     } catch (error) {
         console.log("profile api error");
         console.log(error);
+                res.status(400).json({
+                msg:"profile in api error"
+            })
         return
         
     }
