@@ -84,7 +84,7 @@ export async function loginUser(previousState: unknown, formData:FormData){
     const cookieStore=await cookies()
     cookieStore.set('token', data.token,{
         httpOnly:true,
-        maxAge: 60*60 * 6  //60*60=> 1hr 
+        maxAge: 60*60 * 8  //60*60=> 1hr 
     })
   
     return {
