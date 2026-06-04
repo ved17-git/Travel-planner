@@ -208,7 +208,7 @@ export const deleteTrip=async (req:Request,res:Response)=>{
     try {
 
         if (!req.user) {
-    return res.status(401).json({
+            return res.status(401).json({
         msg: "Unauthorized"
     })
 }
