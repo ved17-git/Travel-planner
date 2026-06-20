@@ -28,10 +28,10 @@ export const authMiddleware=(req:Request,res:Response,next:NextFunction)=>{
       })
     }
 
-    req.user={
-        userId:decoded.userId,
-        email:decoded.email
-    }
+      req.user={
+          userId:decoded.userId,
+          email:decoded.email
+      }
     next()
     
     
