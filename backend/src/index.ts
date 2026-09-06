@@ -41,7 +41,7 @@ connectDB()
 
 app.get('/',(req,res)=>{
     res.json({
-        msg:"test endpoint"
+        msg:"test endpoint, health check"
     })
 })
 
@@ -50,6 +50,5 @@ app.listen(PORT,()=>{
 })
 
 export default app;
-
 
 
